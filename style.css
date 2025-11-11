@@ -7,18 +7,19 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #8B4513, #D2691E); /* Coffee brown gradient */
+    background: linear-gradient(135deg, #2c1810, #5c3d2e, #8b6f47, #d4a574); /* Rich coffee gradient */
     color: #fff;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }
 
 .container {
     max-width: 1200px;
     width: 100%;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
 }
 
@@ -27,23 +28,24 @@ header {
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 header p {
-    font-size: 1.2rem;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
     opacity: 0.9;
 }
 
 .menu-container {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
 }
 
 #menu-image {
@@ -52,10 +54,15 @@ header p {
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
 }
 
-#menu-image:hover {
-    transform: scale(1.05);
+@media (hover: hover) {
+    #menu-image:hover {
+        transform: scale(1.05);
+    }
 }
 
 .controls {
@@ -85,23 +92,24 @@ button:hover {
 
 .qr-container h2 {
     margin-bottom: 20px;
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
     color: #fff;
 }
 
 #qrcode {
     display: inline-block;
     background: rgba(255, 255, 255, 0.9);
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
-    height: 150px;
-    width: 150px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    max-width: 250px;
+    width: 100%;
 }
 
-#qr-code {
+#qrcode img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 footer {
@@ -112,13 +120,53 @@ footer {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
+    body {
+        padding: 5px;
     }
-    header p {
-        font-size: 1rem;
-    }
+    
     .container {
         padding: 10px;
+    }
+    
+    header {
+        margin-bottom: 20px;
+    }
+    
+    .menu-container {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .qr-container {
+        margin-top: 20px;
+    }
+    
+    #qrcode {
+        padding: 10px;
+        max-width: 200px;
+    }
+    
+    footer {
+        font-size: 0.8rem;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        margin-bottom: 15px;
+    }
+    
+    .menu-container {
+        padding: 8px;
+    }
+    
+    #qrcode {
+        padding: 8px;
+        max-width: 180px;
+    }
+    
+    footer {
+        font-size: 0.75rem;
     }
 }
