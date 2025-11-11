@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     background: linear-gradient(135deg, #2c1810, #5c3d2e, #8b6f47, #d4a574);
     background-attachment: fixed;
     color: #2c1810;
@@ -75,7 +75,7 @@ body {
     border: 2px solid #d4a574;
     border-radius: 25px;
     font-size: 1rem;
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     outline: none;
     transition: all 0.3s ease;
@@ -107,7 +107,7 @@ body {
     border-radius: 20px;
     cursor: pointer;
     font-size: clamp(0.85rem, 2vw, 1rem);
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     transition: all 0.3s ease;
     text-transform: capitalize;
@@ -468,7 +468,7 @@ body {
     border: none;
     border-radius: 12px;
     font-size: clamp(1.1rem, 3vw, 1.3rem);
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -560,7 +560,7 @@ body {
     border: none;
     color: #ffd89b;
     font-size: 1.5rem;
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -665,7 +665,7 @@ body {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     transition: all 0.3s ease;
 }

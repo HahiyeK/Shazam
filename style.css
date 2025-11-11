@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     background: linear-gradient(135deg, #2c1810, #5c3d2e, #8b6f47, #d4a574); /* Rich coffee gradient */
     color: #fff;
     min-height: 100vh;
@@ -58,7 +58,7 @@ header p {
     max-width: 400px;
     padding: 20px 40px;
     font-size: clamp(1.1rem, 3vw, 1.5rem);
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     background: linear-gradient(135deg, #5c3d2e, #3e2723);
     color: #ffd89b;
@@ -95,7 +95,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    font-family: 'Gabriola', fantasy, serif;
+    font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     transition: background 0.3s ease;
 }
