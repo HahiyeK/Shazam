@@ -48,21 +48,37 @@ header p {
     margin-bottom: 20px;
 }
 
-#menu-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    cursor: pointer;
+.menu-link {
+    text-decoration: none;
     display: block;
-    margin: 0 auto;
 }
 
-@media (hover: hover) {
-    #menu-image:hover {
-        transform: scale(1.05);
-    }
+.view-menu-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 40px;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: bold;
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    border: 3px solid #d4a574;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.view-menu-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #3e2723, #2c1810);
+    border-color: #ffd89b;
+}
+
+.view-menu-btn:active {
+    transform: translateY(0);
 }
 
 .controls {

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAZAM Barista - Menu</title>
+    <link rel="stylesheet" href="menu-style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="menu-header">
+            <div class="logo">
+                <div class="coffee-icon">☕</div>
+                <h1>SHAZAM Barista</h1>
+                <p class="tagline">You deserve the best</p>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search menu...">
+            </div>
+        </header>
+
+        <main class="menu-content">
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="espresso">Espresso</button>
+                <button class="filter-btn" data-category="black">Black Coffee</button>
+                <button class="filter-btn" data-category="iced">Iced</button>
+                <button class="filter-btn" data-category="tea">Tea</button>
+                <button class="filter-btn" data-category="milkshake">Milkshakes</button>
+                <button class="filter-btn" data-category="smoothie">Smoothies</button>
+                <button class="filter-btn" data-category="juice">Juices</button>
+                <button class="filter-btn" data-category="specialty">Specialty</button>
+            </div>
+
+            <!-- Espresso Based Coffee -->
+            <section class="menu-section" data-category="espresso">
+                <h2 class="section-title">☕ Espresso Based Coffee</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Affogato</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">African coffee</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Babyccino</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Caffè Latte</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Caffè au Lait</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Caffè Mocha</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cappuccino</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cortado</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Flatwhite</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Piccolo</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Espresso Tonic</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Espresso Romano</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Espresso Macchiato</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Spanish Latte</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Calumera Latte</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Frappuccino</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Raf Latte</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Hot Chocolate</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Black Coffee -->
+            <section class="menu-section" data-category="black">
+                <h2 class="section-title">☕ Black Coffee</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Americano</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Long Black</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Red Eye</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Black Eye</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Iced Coffee -->
+            <section class="menu-section" data-category="iced">
+                <h2 class="section-title">🧊 Iced Coffee</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Iced Black Eye</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Iced Red Eye</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Iced Long Black</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Iced Americano</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tea -->
+            <section class="menu-section" data-category="tea">
+                <h2 class="section-title">🍵 Tea</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Black tea</span>
+                        <span class="item-price">1.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Green tea</span>
+                        <span class="item-price">1.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">African tea</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Spiced tea</span>
+                        <span class="item-price">4k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Milkshake -->
+            <section class="menu-section" data-category="milkshake">
+                <h2 class="section-title">🥤 Milkshake</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate milkshake</span>
+                        <span class="item-price">3.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Vanilla milkshake</span>
+                        <span class="item-price">3.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Strawberry milkshake</span>
+                        <span class="item-price">3.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Fruit milkshake</span>
+                        <span class="item-price">3.5k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fruit Juice -->
+            <section class="menu-section" data-category="juice">
+                <h2 class="section-title">🍹 Fruit Juice</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Mix juice</span>
+                        <span class="item-price">3k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tropical juice</span>
+                        <span class="item-price">3k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Exotic juice</span>
+                        <span class="item-price">3k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Smoothie -->
+            <section class="menu-section" data-category="smoothie">
+                <h2 class="section-title">🥤 Smoothie</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Banana mango smoothie</span>
+                        <span class="item-price">4k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Avocado berry smoothie</span>
+                        <span class="item-price">4k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Banana mango yoghurt smoothie</span>
+                        <span class="item-price">4k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Speciality -->
+            <section class="menu-section" data-category="specialty">
+                <h2 class="section-title">☕ Speciality</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">French press</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Aero-press</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Moka pot</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Cold brew</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">V60</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Unique Coffee -->
+            <section class="menu-section" data-category="espresso">
+                <h2 class="section-title">☕ Unique Coffee</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <span class="item-name">Egg coffee</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mango coffee</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Avocado coffee</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Babana coffee</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Frappe</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="menu-footer">
+            <p class="contact">📞 +250 784 039 011</p>
+            <p class="powered">Powered by USAFI COFFEE Shop</p>
+        </footer>
+    </div>
+
+    <script src="menu-script.js"></script>
+</body>
+</html>
