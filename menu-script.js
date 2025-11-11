@@ -220,11 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
     orderForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        if (!database) {
-            showNotification('❌ Firebase not available. Please try again.');
-            return;
-        }
-        
         const customerName = document.getElementById('customerName').value.trim();
         const customerPhone = document.getElementById('customerPhone').value.trim();
         const pickupTime = parseInt(document.getElementById('pickupTime').value);
