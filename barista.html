@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barista Dashboard - SHAZAM</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="barista-style.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-icon">☕</div>
+                <h1>Barista Access</h1>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label for="keyword">Keyword:</label>
+                    <input type="password" id="keyword" placeholder="Enter keyword" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="login-error" id="loginError"></div>
+            <div class="login-footer">
+                <a href="menu.html" class="home-btn">🏠 Back to Menu</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="coffee-icon">☕</div>
+                    <div>
+                        <h1>Barista Dashboard</h1>
+                        <p class="subtitle">SHAZAM Barista - USAFI COFFEE Shop</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalOrders">0</span>
+                        <span class="stat-label">Total Orders</span>
+                    </div>
+                    <div class="stat-card active-stat">
+                        <span class="stat-number" id="activeOrders">0</span>
+                        <span class="stat-label">Active</span>
+                    </div>
+                    <div class="stat-card completed-stat">
+                        <span class="stat-number" id="completedOrders">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Controls -->
+        <div class="controls-bar">
+            <div class="controls-left">
+                <button class="control-btn" id="refreshBtn">
+                    🔄 Refresh
+                </button>
+                <button class="control-btn" id="clearCompletedBtn">
+                    🗑️ Clear Completed
+                </button>
+            </div>
+            <div class="controls-right">
+                <button class="control-btn logout-btn" onclick="logoutBarista()">
+                    🚪 Logout
+                </button>
+                <a href="menu.html" class="control-btn back-btn">
+                    ← Back to Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Orders Grid -->
+        <main class="orders-section">
+            <div id="ordersContainer">
+                <!-- Orders will be dynamically inserted here -->
+            </div>
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📋</div>
+                <h2>No Orders Yet</h2>
+                <p>Orders from customers will appear here in real-time</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer style="background: linear-gradient(135deg, #3e2723, #2c1810); padding: 20px; text-align: center; margin-top: 30px; border-top: 3px solid #d4a574;">
+            <p class="signature">Made by AJM digital solution</p>
+        </footer>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content order-details-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <span class="close-modal" id="closeDetailsModal">&times;</span>
+            </div>
+            <div class="modal-body" id="orderDetailsBody">
+                <!-- Order details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Sound -->
+    <audio id="notificationSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBQ==" type="audio/wav">
+    </audio>
+
+    <script src="barista-script.js"></script>
+</body>
+</html>

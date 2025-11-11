@@ -237,6 +237,14 @@ body {
     font-style: italic;
 }
 
+.signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(0.75rem, 2vw, 1.5rem);
+    margin-top: 15px;
+    color: #ffd89b;
+    opacity: 0.95;
+}
+
 /* No Results Message */
 .no-results {
     text-align: center;
