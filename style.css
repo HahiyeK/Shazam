@@ -94,7 +94,14 @@ button:hover {
     background: rgba(255, 255, 255, 0.9);
     padding: 10px;
     border-radius: 10px;
+    height: 150px;
+    width: 150px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+#qr-code {
+    max-width: 100%;
+    height: auto;
 }
 
 footer {
