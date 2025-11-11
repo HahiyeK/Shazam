@@ -302,6 +302,69 @@
         </footer>
     </div>
 
+    <!-- Active Orders Section -->
+    <div class="active-orders-container" id="activeOrdersContainer" style="display: none;">
+        <div class="active-orders-header">
+            <h3>🛒 Your Active Orders</h3>
+            <button class="close-orders-btn" id="closeOrdersBtn">✕</button>
+        </div>
+        <div id="activeOrdersList"></div>
+    </div>
+
+    <!-- Floating Orders Button -->
+    <button class="floating-orders-btn" id="floatingOrdersBtn" style="display: none;">
+        <span class="order-count" id="orderCount">0</span>
+        🛍️
+    </button>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🛒 Place Your Order</h2>
+                <span class="close-modal" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="selected-item-display">
+                    <h3 id="selectedItemName"></h3>
+                    <p class="selected-price" id="selectedItemPrice"></p>
+                </div>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="customerName">👤 Your Name *</label>
+                        <input type="text" id="customerName" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">📱 Phone Number *</label>
+                        <input type="tel" id="customerPhone" required placeholder="+250 XXX XXX XXX" pattern="[+0-9\s\-()]+">
+                    </div>
+                    <div class="form-group">
+                        <label for="pickupTime">⏰ Pickup Time (minutes) *</label>
+                        <select id="pickupTime" required>
+                            <option value="">Select pickup time</option>
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="20">20 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialInstructions">📝 Special Instructions (Optional)</label>
+                        <textarea id="specialInstructions" rows="3" placeholder="Any special requests?"></textarea>
+                    </div>
+                    <div class="pickup-info">
+                        <p>📍 <strong>Pickup Location:</strong> USAFI COFFEE Shop</p>
+                        <p>☎️ <strong>Contact:</strong> +250 784 039 011</p>
+                    </div>
+                    <button type="submit" class="submit-order-btn">✓ Confirm Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="menu-script.js"></script>
 </body>
 </html>
