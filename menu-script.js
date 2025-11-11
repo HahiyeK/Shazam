@@ -1,5 +1,46 @@
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCnoVYQ_BgOSNeVuJPE0hF92beCrWhpoPE",
+  authDomain: "shazam-coffee.firebaseapp.com",
+  projectId: "shazam-coffee",
+  storageBucket: "shazam-coffee.firebasestorage.app",
+  messagingSenderId: "303645613348",
+  appId: "1:303645613348:web:fd463f95c4bb95d16fa7b1"
+};
+
+// Initialize Firebase - will be called in DOMContentLoaded
+let database = null;
+
 // Menu functionality with Order System
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Firebase after DOM is ready
+    let firebaseReady = false;
+    
+    // Check if Firebase is available with timeout
+    const checkFirebase = setInterval(() => {
+        if (typeof firebase !== 'undefined') {
+            clearInterval(checkFirebase);
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                database = firebase.database();
+                firebaseReady = true;
+                console.log('✅ Firebase initialized successfully');
+            } catch (error) {
+                console.error('Firebase initialization error:', error);
+            }
+        }
+    }, 100);
+    
+    // Stop checking after 5 seconds and use fallback
+    setTimeout(() => {
+        clearInterval(checkFirebase);
+        if (!firebaseReady) {
+            console.warn('⚠️ Firebase SDK not loaded. Using offline mode (localStorage).');
+            // Fallback will be handled in saveOrders and loadOrdersFromFirebase
+        }
+    }, 5000);
     // Elements
     const searchInput = document.getElementById('searchInput');
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -21,12 +62,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const orderCount = document.getElementById('orderCount');
     
     // Order tracking
-    let orders = JSON.parse(localStorage.getItem('coffeeOrders')) || [];
+    let orders = [];
     let selectedItem = null;
     let countdownIntervals = {};
+    let firebaseListener = null;
+    
+    // Load orders from Firebase or localStorage fallback
+    function loadOrdersFromFirebase() {
+        // Try Firebase first
+        if (database) {
+            try {
+                if (firebaseListener) {
+                    firebaseListener.off();
+                }
+                firebaseListener = database.ref('orders').on('value', function(snapshot) {
+                    const data = snapshot.val();
+                    orders = data ? Object.values(data) : [];
+                    updateOrdersDisplay();
+                }, function(error) {
+                    console.error('Firebase error:', error);
+                    loadFromLocalStorage(); // Fallback
+                });
+            } catch (error) {
+                console.error('Error loading from Firebase:', error);
+                loadFromLocalStorage(); // Fallback
+            }
+        } else {
+            // Firebase not available, use localStorage
+            loadFromLocalStorage();
+        }
+    }
+    
+    // Load from localStorage (fallback)
+    function loadFromLocalStorage() {
+        try {
+            const stored = localStorage.getItem('coffeeOrders');
+            orders = stored ? JSON.parse(stored) : [];
+            updateOrdersDisplay();
+            console.log('📱 Loaded orders from local storage (offline mode)');
+        } catch (error) {
+            console.error('Error loading from localStorage:', error);
+            orders = [];
+            updateOrdersDisplay();
+        }
+    }
     
     // Initialize
-    updateOrdersDisplay();
+    loadOrdersFromFirebase();
     
     // Search functionality
     searchInput.addEventListener('input', function(e) {
@@ -138,14 +220,25 @@ document.addEventListener('DOMContentLoaded', function() {
     orderForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        if (!database) {
+            showNotification('❌ Firebase not available. Please try again.');
+            return;
+        }
+        
         const customerName = document.getElementById('customerName').value.trim();
         const customerPhone = document.getElementById('customerPhone').value.trim();
         const pickupTime = parseInt(document.getElementById('pickupTime').value);
         const specialInstructions = document.getElementById('specialInstructions').value.trim();
         
+        if (!customerName || !customerPhone || !pickupTime) {
+            showNotification('❌ Please fill in all required fields.');
+            return;
+        }
+        
         // Create order
+        const orderId = Date.now().toString();
         const order = {
-            id: Date.now(),
+            id: orderId,
             itemName: selectedItem.name,
             itemPrice: selectedItem.price,
             customerName: customerName,
@@ -157,20 +250,60 @@ document.addEventListener('DOMContentLoaded', function() {
             status: 'active'
         };
         
-        orders.push(order);
-        saveOrders();
-        updateOrdersDisplay();
-        
-        closeOrderModal();
-        
-        // Show confirmation
-        showNotification(`✅ Order placed successfully! Your ${order.itemName} will be ready in ${pickupTime} minutes.`);
-        
-        // Auto-open orders panel
-        setTimeout(() => {
-            activeOrdersContainer.style.display = 'block';
-        }, 500);
+        // Save to Firebase or localStorage
+        if (database) {
+            // Try Firebase first
+            try {
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Request timeout')), 10000)
+                );
+                
+                Promise.race([
+                    database.ref('orders/' + orderId).set(order),
+                    timeoutPromise
+                ]).then(() => {
+                    closeOrderModal();
+                    showNotification(`✅ Order placed successfully! Your ${order.itemName} will be ready in ${pickupTime} minutes.`);
+                    
+                    // Auto-open orders panel
+                    setTimeout(() => {
+                        activeOrdersContainer.style.display = 'block';
+                    }, 500);
+                }).catch((error) => {
+                    console.error('Firebase save failed, trying localStorage:', error);
+                    saveToLocalStorage(order);
+                });
+            } catch (error) {
+                console.error('Error saving to Firebase:', error);
+                saveToLocalStorage(order);
+            }
+        } else {
+            // Firebase not available, save to localStorage
+            saveToLocalStorage(order);
+        }
     });
+    
+    // Save order to localStorage (fallback)
+    function saveToLocalStorage(order) {
+        try {
+            let stored = localStorage.getItem('coffeeOrders');
+            let ordersList = stored ? JSON.parse(stored) : [];
+            ordersList.push(order);
+            localStorage.setItem('coffeeOrders', JSON.stringify(ordersList));
+            
+            closeOrderModal();
+            showNotification(`✅ Order placed successfully (offline)! Your ${order.itemName} will be ready in ${order.pickupMinutes} minutes.`);
+            
+            // Auto-open orders panel and reload
+            setTimeout(() => {
+                activeOrdersContainer.style.display = 'block';
+                loadFromLocalStorage();
+            }, 500);
+        } catch (error) {
+            showNotification('❌ Failed to save order.');
+            console.error('Error saving to localStorage:', error);
+        }
+    }
     
     // Update orders display
     function updateOrdersDisplay() {
@@ -180,11 +313,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Remove expired orders
         const now = Date.now();
-        orders = orders.filter(order => {
+        const ordersToKeep = [];
+        
+        orders.forEach(order => {
             const endTime = new Date(order.endTime).getTime();
-            return now - endTime < 3600000; // Keep for 1 hour after ready
+            if (now - endTime < 3600000) { // Keep for 1 hour after ready
+                ordersToKeep.push(order);
+            } else {
+                // Delete expired orders from Firebase
+                database.ref('orders/' + order.id).remove();
+            }
         });
-        saveOrders();
+        
+        orders = ordersToKeep;
         
         // Update count
         const activeCount = orders.filter(o => o.status === 'active').length;
@@ -233,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="countdown-display ${isReady ? 'order-ready' : ''}" id="countdown-${order.id}">
                 ${isReady ? '✅ ORDER READY FOR PICKUP!' : '<span class="countdown-time">--:--</span><span class="countdown-label">Time remaining</span>'}
             </div>
-            <button class="cancel-order-btn" onclick="cancelOrder(${order.id})">Cancel Order</button>
+            <button class="cancel-order-btn" onclick="cancelOrder('${order.id}')">Cancel Order</button>
         `;
         
         return card;
@@ -254,7 +395,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 countdownElement.classList.add('order-ready');
                 clearInterval(countdownIntervals[order.id]);
                 
-                // Play notification sound (optional)
+                // Update status in Firebase
+                database.ref('orders/' + order.id + '/status').set('ready');
+                
                 showNotification(`🎉 Your ${order.itemName} is ready for pickup!`);
                 return;
             }
@@ -276,12 +419,35 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cancel order
     window.cancelOrder = function(orderId) {
         if (confirm('Are you sure you want to cancel this order?')) {
-            orders = orders.filter(o => o.id !== orderId);
-            saveOrders();
-            updateOrdersDisplay();
-            showNotification('Order cancelled successfully');
+            if (database) {
+                // Try Firebase first
+                database.ref('orders/' + orderId).remove().then(() => {
+                    showNotification('Order cancelled successfully');
+                }).catch((error) => {
+                    console.error('Firebase delete failed, trying localStorage:', error);
+                    cancelOrderLocal(orderId);
+                });
+            } else {
+                // Use localStorage
+                cancelOrderLocal(orderId);
+            }
         }
     };
+    
+    // Cancel order from localStorage
+    function cancelOrderLocal(orderId) {
+        try {
+            let stored = localStorage.getItem('coffeeOrders');
+            let ordersList = stored ? JSON.parse(stored) : [];
+            ordersList = ordersList.filter(o => o.id !== orderId);
+            localStorage.setItem('coffeeOrders', JSON.stringify(ordersList));
+            showNotification('Order cancelled successfully');
+            loadFromLocalStorage();
+        } catch (error) {
+            showNotification('❌ Failed to cancel order.');
+            console.error('Error cancelling order:', error);
+        }
+    }
     
     // Toggle orders panel
     floatingOrdersBtn.addEventListener('click', function() {
@@ -292,11 +458,6 @@ document.addEventListener('DOMContentLoaded', function() {
     closeOrdersBtn.addEventListener('click', function() {
         activeOrdersContainer.style.display = 'none';
     });
-    
-    // Save orders to localStorage
-    function saveOrders() {
-        localStorage.setItem('coffeeOrders', JSON.stringify(orders));
-    }
     
     // Show notification
     function showNotification(message) {
@@ -395,6 +556,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('🎉 SHAZAM Barista Menu with Order System Loaded!');
-    console.log('📱 Mobile responsive | 🔍 Search & filter | 🛒 Order system active');
+    console.log('🎉 SHAZAM Coffee Shop App with Firebase Loaded!');
+    console.log('📱 Mobile responsive | 🔍 Search & filter | 🛒 Order system active | 🌐 Cloud synced');
 });

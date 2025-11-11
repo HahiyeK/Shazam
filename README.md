@@ -16,10 +16,12 @@ A modern web-based coffee ordering and management system designed for USAFI COFF
 
 ✅ **User-Friendly Interface** - Intuitive design for easy navigation  
 ✅ **Real-Time Order Management** - Instant order updates and notifications  
+✅ **Cloud Sync (Firebase)** - Orders sync across all devices instantly  
 ✅ **Secure Barista Dashboard** - Protected access with authentication  
 ✅ **Order Countdown Timer** - Visual timer to track preparation time  
 ✅ **Coffee Shop Themed Design** - Beautiful, branded aesthetics  
 ✅ **Mobile Responsive** - Works seamlessly on all devices  
+✅ **Multi-Device Support** - Place orders on phone, manage on laptop  
 
 ---
 
@@ -174,16 +176,30 @@ Each order card displays:
 
 ## Getting Started
 
+### Important: Firebase Setup Required (One Time)
+
+Before using the app, you must configure Firebase Database Rules:
+
+1. Go to https://console.firebase.google.com/
+2. Select project: **shazam-coffee**
+3. Go to **Build → Realtime Database → Rules tab**
+4. Follow instructions in **FIREBASE_SETUP.md**
+5. Click **Publish** to save rules
+
+**See FIREBASE_SETUP.md for detailed instructions**
+
 ### First Time Setup
 
 1. **For Customers**
    - Open `menu.html` in your web browser
    - Start browsing and placing orders
    - No login required
+   - Orders sync to Firebase automatically
 
 2. **For Baristas**
    - Open `barista.html` in your web browser
    - Login with your provided credentials
+   - See all orders from all devices in real-time
    - Start managing orders
 
 ### Browser Requirements
