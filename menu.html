@@ -9,9 +9,47 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="menu-style.css">
-    <!-- Firebase SDK (Compat version for global access) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-compat/app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-compat/database.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
+    <script>
+        // Initialize Firebase with error handling
+        console.log('Firebase scripts loading...');
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnoVYQ_BgOSNeVuJPE0hF92beCrWhpoPE",
+            authDomain: "shazam-coffee.firebaseapp.com",
+            projectId: "shazam-coffee",
+            storageBucket: "shazam-coffee.firebasestorage.app",
+            messagingSenderId: "303645613348",
+            appId: "1:303645613348:web:fd463f95c4bb95d16fa7b1"
+        };
+        
+        // Wait for firebase to be available
+        let initAttempts = 0;
+        const initFirebase = setInterval(() => {
+            if (typeof firebase !== 'undefined' && firebase.apps !== undefined) {
+                clearInterval(initFirebase);
+                try {
+                    if (!firebase.apps.length) {
+                        firebase.initializeApp(firebaseConfig);
+                    }
+                    window.firebaseDB = firebase.database();
+                    console.log('✅ Firebase initialized successfully');
+                } catch (error) {
+                    console.error('Firebase init error:', error);
+                    window.firebaseDB = null;
+                }
+            } else {
+                initAttempts++;
+                if (initAttempts > 100) {
+                    clearInterval(initFirebase);
+                    console.warn('⚠️ Firebase CDN not loaded. Using offline mode (localStorage). The app will still work fine!');
+                    window.firebaseDB = null;
+                }
+            }
+        }, 100);
+    </script>
 </head>
 <body>
     <div class="container">
@@ -329,6 +367,17 @@
         <span class="order-count" id="orderCount">0</span>
         🛍️
     </button>
+
+    <!-- Customer Notifications Panel (Bottom Left) -->
+    <div id="customerNotificationsPanel" style="position: fixed; bottom: 20px; left: 20px; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); border: 2px solid #d4a574; overflow-y: auto; z-index: 9999; display: none;">
+        <div style="position: sticky; top: 0; background: linear-gradient(135deg, #5c3d2e, #3e2723); color: white; padding: 15px; border-radius: 10px 10px 0 0; border-bottom: 2px solid #d4a574;">
+            <h3 style="margin: 0; font-size: 1rem;">📢 Shop Updates</h3>
+            <button onclick="toggleNotificationsPanel()" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; cursor: pointer; font-size: 1.2rem;">✕</button>
+        </div>
+        <div id="notificationsContent" style="padding: 15px;">
+            <!-- Notifications will be displayed here -->
+        </div>
+    </div>
 
     <!-- Order Modal -->
     <div class="modal" id="orderModal">

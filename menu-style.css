@@ -106,7 +106,7 @@ body {
     color: #5c3d2e;
     border-radius: 20px;
     cursor: pointer;
-    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-size: clamp(1.5rem, 2vw, 1rem);
     font-family: 'Dancing Script', cursive, serif;
     font-weight: bold;
     transition: all 0.3s ease;
@@ -199,10 +199,14 @@ body {
 }
 
 .item-name {
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-    color: #3e2723;
-    font-weight: 500;
+    font-size: clamp(1.5rem, 2.5vw, 1.1rem);
+    color: #ffffff;
+    font-weight: bold;
     flex: 1;
+    background-color: #5c3d2e;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 .item-price {

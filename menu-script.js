@@ -1,46 +1,14 @@
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCnoVYQ_BgOSNeVuJPE0hF92beCrWhpoPE",
-  authDomain: "shazam-coffee.firebaseapp.com",
-  projectId: "shazam-coffee",
-  storageBucket: "shazam-coffee.firebasestorage.app",
-  messagingSenderId: "303645613348",
-  appId: "1:303645613348:web:fd463f95c4bb95d16fa7b1"
-};
-
-// Initialize Firebase - will be called in DOMContentLoaded
-let database = null;
+// Firebase is initialized in HTML, use the global reference
+let database = window.firebaseDB || null;
 
 // Menu functionality with Order System
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Firebase after DOM is ready
-    let firebaseReady = false;
-    
-    // Check if Firebase is available with timeout
-    const checkFirebase = setInterval(() => {
-        if (typeof firebase !== 'undefined') {
-            clearInterval(checkFirebase);
-            try {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                database = firebase.database();
-                firebaseReady = true;
-                console.log('✅ Firebase initialized successfully');
-            } catch (error) {
-                console.error('Firebase initialization error:', error);
-            }
-        }
-    }, 100);
-    
-    // Stop checking after 5 seconds and use fallback
-    setTimeout(() => {
-        clearInterval(checkFirebase);
-        if (!firebaseReady) {
-            console.warn('⚠️ Firebase SDK not loaded. Using offline mode (localStorage).');
-            // Fallback will be handled in saveOrders and loadOrdersFromFirebase
-        }
-    }, 5000);
+    // Check if Firebase is available
+    if (database) {
+        console.log('✅ Firebase initialized successfully');
+    } else {
+        console.warn('⚠️ Firebase SDK not loaded. Using offline mode (localStorage).');
+    }
     // Elements
     const searchInput = document.getElementById('searchInput');
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -79,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const data = snapshot.val();
                     orders = data ? Object.values(data) : [];
                     updateOrdersDisplay();
+                    checkForCompletedOrders();
                 }, function(error) {
                     console.error('Firebase error:', error);
                     loadFromLocalStorage(); // Fallback
@@ -91,6 +60,57 @@ document.addEventListener('DOMContentLoaded', function() {
             // Firebase not available, use localStorage
             loadFromLocalStorage();
         }
+    }
+    
+    // Check for completed orders and show notifications
+    function checkForCompletedOrders() {
+        orders.forEach(order => {
+            if (order.status === 'completed' && !order.notificationShown) {
+                showOrderCompletionNotification(order);
+                // Mark notification as shown
+                if (database) {
+                    database.ref('orders/' + order.id).update({ notificationShown: true });
+                }
+            }
+        });
+    }
+    
+    // Show order completion notification
+    function showOrderCompletionNotification(order) {
+        const notifPanel = document.getElementById('customerNotificationsPanel');
+        const notifContent = document.getElementById('notificationsContent');
+        
+        // Show panel if hidden
+        notifPanel.style.display = 'block';
+        
+        // Create notification element
+        const notif = document.createElement('div');
+        notif.style.cssText = `
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f5e6d3;
+            border-left: 4px solid #4CAF50;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        `;
+        
+        notif.innerHTML = `
+            <strong style="color: #4CAF50;">✓ Order Ready!</strong><br>
+            <span style="color: #3e2723;">${order.itemName} for <strong>${order.customerName}</strong> is ready for pickup!</span>
+        `;
+        
+        notifContent.insertBefore(notif, notifContent.firstChild);
+        
+        // Auto-remove notification after 10 seconds
+        setTimeout(() => {
+            notif.style.opacity = '0.5';
+        }, 8000);
+    }
+    
+    // Toggle notifications panel
+    window.toggleNotificationsPanel = function() {
+        const panel = document.getElementById('customerNotificationsPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
     }
     
     // Load from localStorage (fallback)
@@ -316,7 +336,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 ordersToKeep.push(order);
             } else {
                 // Delete expired orders from Firebase
-                database.ref('orders/' + order.id).remove();
+                if (database) {
+                    database.ref('orders/' + order.id).remove();
+                }
             }
         });
         
@@ -391,7 +413,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(countdownIntervals[order.id]);
                 
                 // Update status in Firebase
-                database.ref('orders/' + order.id + '/status').set('ready');
+                if (database) {
+                    database.ref('orders/' + order.id + '/status').set('ready');
+                }
                 
                 showNotification(`🎉 Your ${order.itemName} is ready for pickup!`);
                 return;

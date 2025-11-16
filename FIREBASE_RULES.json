@@ -4,7 +4,14 @@
       ".read": true,
       ".write": true,
       "$orderId": {
-        ".validate": "newData.hasChildren(['id', 'itemName', 'customerName', 'customerPhone', 'orderTime', 'endTime', 'status'])"
+        ".validate": "newData.exists()"
+      }
+    },
+    "baristas": {
+      ".read": true,
+      ".write": true,
+      "$baristaId": {
+        ".validate": "newData.exists()"
       }
     }
   }

@@ -1,48 +1,16 @@
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCnoVYQ_BgOSNeVuJPE0hF92beCrWhpoPE",
-  authDomain: "shazam-coffee.firebaseapp.com",
-  projectId: "shazam-coffee",
-  storageBucket: "shazam-coffee.firebasestorage.app",
-  messagingSenderId: "303645613348",
-  appId: "1:303645613348:web:fd463f95c4bb95d16fa7b1"
-};
-
-// Initialize Firebase - will be called in DOMContentLoaded
-let database = null;
+// Firebase is initialized in HTML, use the global reference
+let database = window.firebaseDB || null;
 
 // Barista Dashboard Script
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Firebase after DOM is ready
-    let firebaseReady = false;
-    
-    // Check if Firebase is available with timeout
-    const checkFirebase = setInterval(() => {
-        if (typeof firebase !== 'undefined') {
-            clearInterval(checkFirebase);
-            try {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                database = firebase.database();
-                firebaseReady = true;
-                console.log('✅ Firebase initialized successfully');
-            } catch (error) {
-                console.error('Firebase initialization error:', error);
-            }
-        }
-    }, 100);
-    
-    // Stop checking after 5 seconds and use fallback
-    setTimeout(() => {
-        clearInterval(checkFirebase);
-        if (!firebaseReady) {
-            console.warn('⚠️ Firebase SDK not loaded. Using localStorage mode.');
-        }
-    }, 5000);
-    // Login credentials
-    const VALID_USERNAME = 'AJM';
-    const VALID_PASSWORD = 'ajm';
+    // Check if Firebase is available
+    if (database) {
+        console.log('✅ Firebase initialized successfully');
+    } else {
+        console.warn('⚠️ Firebase SDK not loaded. Using localStorage mode.');
+    }
+    // Login credentials - use staff password/keyword
+    const VALID_PASSWORD = '[REDACTED:password]';
     const VALID_KEYWORD = 'koffi';
     
     // Login functionality
@@ -50,30 +18,88 @@ document.addEventListener('DOMContentLoaded', function() {
     const dashboardContainer = document.getElementById('dashboardContainer');
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
+    let currentBaristaName = null;
+    
+    // Ensure login modal is centered
+    if (loginModal) {
+        loginModal.style.display = 'flex';
+        loginModal.style.justifyContent = 'center';
+        loginModal.style.alignItems = 'center';
+    }
     
     // Handle login
     window.handleLogin = function(event) {
         event.preventDefault();
         
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const keyword = document.getElementById('keyword').value;
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const keyword = document.getElementById('keyword').value.trim();
         
-        if (username === VALID_USERNAME && password === VALID_PASSWORD && keyword === VALID_KEYWORD) {
-            localStorage.setItem('baristaLoggedIn', 'true');
-            loginModal.style.display = 'none';
-            dashboardContainer.style.display = 'block';
-            loginError.textContent = '';
-            
-            // Clear form
-            loginForm.reset();
-            
-            // Initialize dashboard
-            initializeDashboard();
+        loginError.textContent = '';
+        
+        // Validate password and keyword
+        if (password === VALID_PASSWORD && keyword === VALID_KEYWORD) {
+            // Now validate that this barista exists in the system
+            validateBaristaExists(username);
         } else {
-            loginError.textContent = '❌ Invalid credentials. Please try again.';
+            loginError.textContent = '❌ Invalid password or keyword.';
         }
     };
+    
+    // Validate barista exists in Firebase or localStorage
+    function validateBaristaExists(baristaName) {
+        if (database) {
+            database.ref('baristas').once('value', function(snapshot) {
+                const baristas = snapshot.val() || {};
+                const baristasList = Object.values(baristas);
+                const baristaExists = baristasList.some(b => b.name === baristaName);
+                
+                if (baristaExists) {
+                    loginSuccessful(baristaName);
+                } else {
+                    // Try localStorage fallback
+                    validateBaristaExistsLocal(baristaName);
+                }
+            }).catch(error => {
+                console.error('Firebase error:', error);
+                validateBaristaExistsLocal(baristaName);
+            });
+        } else {
+            validateBaristaExistsLocal(baristaName);
+        }
+    }
+    
+    function validateBaristaExistsLocal(baristaName) {
+        try {
+            let baristas = localStorage.getItem('coffeeBaristas');
+            let baristasList = baristas ? JSON.parse(baristas) : [];
+            const baristaExists = baristasList.some(b => b.name === baristaName);
+            
+            if (baristaExists) {
+                loginSuccessful(baristaName);
+            } else {
+                document.getElementById('loginError').textContent = '❌ Barista "' + baristaName + '" not found. Use the name created by the manager.';
+            }
+        } catch (error) {
+            document.getElementById('loginError').textContent = '❌ Error validating barista.';
+            console.error('Error:', error);
+        }
+    }
+    
+    function loginSuccessful(baristaName) {
+        currentBaristaName = baristaName;
+        localStorage.setItem('baristaLoggedIn', 'true');
+        localStorage.setItem('currentBaristaName', baristaName);
+        loginModal.style.display = 'none';
+        dashboardContainer.style.display = 'block';
+        document.getElementById('loginError').textContent = '';
+        
+        // Clear form
+        loginForm.reset();
+        
+        // Initialize dashboard with barista name
+        initializeDashboard(baristaName);
+    }
     
     // Add logout functionality
     window.logoutBarista = function() {
@@ -85,15 +111,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check if user is already logged in
     if (localStorage.getItem('baristaLoggedIn') === 'true') {
+        const savedBaristaName = localStorage.getItem('currentBaristaName');
+        currentBaristaName = savedBaristaName;
         loginModal.style.display = 'none';
         dashboardContainer.style.display = 'block';
-        initializeDashboard();
+        initializeDashboard(savedBaristaName);
     } else {
         loginModal.style.display = 'flex';
         dashboardContainer.style.display = 'none';
     }
     
-    function initializeDashboard() {
+    function initializeDashboard(baristaName) {
+        // Update header with barista name
+        const headerH1 = document.querySelector('.dashboard-header h1');
+        if (headerH1) {
+            headerH1.textContent = `Barista Dashboard - ${baristaName}`;
+        }
+        
         // Elements
         const ordersContainer = document.getElementById('ordersContainer');
         const emptyState = document.getElementById('emptyState');
@@ -120,12 +154,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     firebaseListener = database.ref('orders').on('value', function(snapshot) {
                         const data = snapshot.val();
-                        const newOrders = data ? Object.values(data) : [];
+                        const allOrders = data ? Object.values(data) : [];
+                        
+                        // Filter to only show orders assigned to this barista
+                        const newOrders = allOrders.filter(order => order.assignedTo === currentBaristaName);
                         
                         // Check for new orders
                         if (newOrders.length > lastOrderCount) {
                             playNotification();
-                            showToast('🔔 New order received!');
+                            showToast('🔔 New order assigned to you!');
                         }
                         
                         lastOrderCount = newOrders.length;
@@ -149,9 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
         function loadFromLocalStorageBarista() {
             try {
                 const stored = localStorage.getItem('coffeeOrders');
-                orders = stored ? JSON.parse(stored) : [];
+                const allOrders = stored ? JSON.parse(stored) : [];
+                // Filter to only show orders assigned to this barista
+                orders = allOrders.filter(order => order.assignedTo === currentBaristaName);
                 updateDisplay();
-                console.log('📱 Loaded orders from local storage (offline mode)');
+                console.log('📱 Loaded assigned orders from local storage (offline mode)');
             } catch (error) {
                 console.error('Error loading from localStorage:', error);
                 orders = [];

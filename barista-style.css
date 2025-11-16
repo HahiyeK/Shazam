@@ -395,6 +395,55 @@ body {
     transform: translateY(-2px);
 }
 
+/* Role Selection Styles */
+.role-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.role-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    border: 3px solid #d4a574;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-family: 'Dancing Script', cursive, serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+    background: linear-gradient(135deg, #3e2723, #2c1810);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.back-role-btn {
+    padding: 10px 20px;
+    background: #666;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive, serif;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-role-btn:hover {
+    background: #555;
+}
+
+.manager-dashboard {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Empty State */
 .empty-state {
     text-align: center;
@@ -522,6 +571,8 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 2000;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .login-container {
@@ -529,9 +580,11 @@ body {
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
+    max-width: 450px;
     width: 90%;
     border: 3px solid #d4a574;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .login-header {
@@ -636,4 +689,23 @@ body {
     background: linear-gradient(135deg, #1976D2, #0D47A1);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Scrollbar */
+.login-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.login-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.login-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #d4a574, #8b6f47);
+    border-radius: 10px;
+}
+
+.login-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #8b6f47, #5c3d2e);
 }

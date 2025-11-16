@@ -1,0 +1,53 @@
+MANAGER DASHBOARD ORDER VISIBILITY FIX
+=====================================
+
+PROBLEM:
+The manager was not seeing customer orders in the manager dashboard, making it impossible 
+to assign orders to baristas.
+
+ROOT CAUSES IDENTIFIED:
+1. Orders loading without proper real-time updates in manager view
+2. No fallback to localStorage if Firebase temporarily unavailable
+3. Orders not being properly rendered with visibility into key details
+4. Missing orderTime data for order sorting
+
+FIXES APPLIED:
+
+1. ENHANCED MANAGER DATA LOADING (staff-script.js)
+   - Added loadManagerDataFromFirebase() for proper real-time listening
+   - Added loadManagerDataFromLocalStorage() fallback
+   - Added error handling with graceful fallback
+   - Added console logging for debugging order loading
+   - Fixed pending orders filter to include orders without status
+
+2. IMPROVED ORDER CARD RENDERING (staff-script.js)
+   - Orders now sorted by most recent first
+   - Added order timestamp display (⏰ time received)
+   - Added order details: customer name, phone, price, pickup time
+   - Color-coded status indicators
+   - Clearer "Assign to Barista" button with emoji indicator
+   - Added visual feedback on hover (shadow and slide animation)
+
+3. UPDATED FIREBASE RULES (FIREBASE_RULES.json)
+   - Added proper baristas read/write rules
+   - Ensured both orders and baristas are readable by manager
+
+4. ENHANCED ASSIGNMENT MODAL (staff-script.js)
+   - Now displays customer name in order info
+   - Better context for which order is being assigned
+
+HOW TO TEST:
+1. Go to menu.html
+2. Place a new order
+3. Login as Manager (credentials in staff-script.js)
+4. You should see all orders immediately on the Manager Dashboard
+5. Click "Assign to Barista" to assign orders to created baristas
+6. The assigned orders will show "✓ Assigned to: [Barista Name]"
+
+ORDERS FLOW:
+Customer → Places Order (menu.html) → Firebase stores order with status: 'active'
+Manager → Views all unassigned orders → Assigns to barista
+Barista → Logs in → Sees only their assigned orders → Marks complete
+Customer → Receives notification when order is ready
+
+All changes maintain fallback to localStorage for offline functionality.
