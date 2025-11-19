@@ -76,6 +76,7 @@ body {
 
 .stat-card {
     background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border: 2px solid #d4a574;
     border-radius: 12px;
@@ -708,4 +709,670 @@ body {
 
 .login-container::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #8b6f47, #5c3d2e);
+}
+
+/* Barista Login Info Box */
+.barista-login-info {
+    background: linear-gradient(135deg, #f5e6d3, #fff);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #d4a574;
+    display: none;
+}
+
+.barista-login-info p {
+    margin: 0 0 10px 0;
+    color: #3e2723;
+    font-weight: bold;
+}
+
+.barista-login-info p:nth-child(2) {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.barista-login-info p:nth-child(3) {
+    margin: 0;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+/* Form Group Small Text */
+.form-group small {
+    color: #999;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Hidden Form */
+.hidden-form {
+    display: none;
+}
+
+.hidden-form.show {
+    display: block;
+}
+
+/* Role Selector Title */
+.role-selector-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #5c3d2e;
+    font-weight: bold;
+}
+
+/* Modal Header Styling */
+.modal-header {
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-modal {
+    color: #ffd89b;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Modal Body Styling */
+.modal-body {
+    padding: 25px;
+}
+
+/* Add Barista Section */
+.add-barista-section {
+    background: linear-gradient(135deg, #f5e6d3, #fff);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 2px solid #d4a574;
+}
+
+.add-barista-section h3 {
+    margin: 0 0 15px 0;
+    color: #3e2723;
+    font-size: 1.1rem;
+}
+
+.add-barista-section input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.add-barista-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.add-barista-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+}
+
+/* Modal Divider */
+.modal-divider {
+    text-align: center;
+    margin: 25px 0;
+    color: #999;
+}
+
+.modal-divider span {
+    background: white;
+    padding: 0 10px;
+}
+
+.modal-divider hr {
+    border: 1px solid #d4a574;
+    margin-top: -15px;
+}
+
+/* Active Baristas Section */
+.active-baristas-section h3 {
+    margin: 0 0 15px 0;
+    color: #3e2723;
+    font-size: 1.1rem;
+}
+
+.barista-list-modal {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.loading-baristas {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    border-top: 2px solid #e0d0b8;
+    padding-top: 15px;
+}
+
+.modal-footer button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modal-cancel-btn {
+    background: #999;
+    color: white;
+}
+
+.modal-cancel-btn:hover {
+    background: #888;
+}
+
+.modal-done-btn {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+}
+
+.modal-done-btn:hover {
+    background: linear-gradient(135deg, #1976D2, #0D47A1);
+}
+
+/* Order Assignment Modal */
+.assignment-order-info {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5e6d3, #fff);
+    border: 2px solid #d4a574;
+    border-radius: 12px;
+    border-left: 5px solid #d4a574;
+}
+
+.barista-selection-section {
+    background: linear-gradient(135deg, #f9f1e6, #fff);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e8d7c3;
+}
+
+.barista-selection-section label {
+    font-weight: bold;
+    color: #3e2723;
+    display: block;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+}
+
+.barista-selection-section select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    background: white;
+    color: #3e2723;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.barista-selection-section select:hover {
+    border-color: #8b6f47;
+}
+
+.modal-action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    border-top: 2px solid #e0d0b8;
+    padding-top: 20px;
+}
+
+.modal-action-buttons button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modal-action-cancel {
+    background: #999;
+    color: white;
+}
+
+.modal-action-cancel:hover {
+    background: #888;
+}
+
+.modal-action-assign {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.modal-action-assign:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+/* Manager Orders Grid */
+.manager-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.manager-orders-section h2,
+.manager-baristas-section h2 {
+    color: #3e2723;
+    margin-bottom: 15px;
+}
+
+.baristas-list-container {
+    border: 2px solid #d4a574;
+    border-radius: 10px;
+    padding: 15px;
+    background: rgba(255,255,255,0.8);
+}
+
+/* Dashboard Footer */
+.dashboard-footer {
+    background: linear-gradient(135deg, #3e2723, #2c1810);
+    padding: 20px;
+    text-align: center;
+    margin-top: 30px;
+    border-top: 3px solid #d4a574;
+}
+
+/* Form Small Text */
+.form-small-text {
+    color: #999;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Manager Content Grid */
+.manager-content-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.manager-orders-header,
+.manager-baristas-header {
+    color: #3e2723;
+    margin-bottom: 15px;
+}
+
+.baristas-container {
+    border: 2px solid #d4a574;
+    border-radius: 10px;
+    padding: 15px;
+    background: rgba(255,255,255,0.8);
+}
+
+/* Modal Content Wrapper */
+.modal-content-wrapper {
+    max-width: 500px;
+}
+
+.barista-management-header {
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+}
+
+.barista-management-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-modal-btn {
+    color: #ffd89b;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.modal-body-padding {
+    padding: 25px;
+}
+
+.add-barista-wrapper {
+    background: linear-gradient(135deg, #f5e6d3, #fff);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 2px solid #d4a574;
+}
+
+.add-barista-wrapper h3 {
+    margin: 0 0 15px 0;
+    color: #3e2723;
+    font-size: 1.1rem;
+}
+
+.barista-name-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.add-barista-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.add-barista-submit-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+}
+
+.modal-divider-wrapper {
+    text-align: center;
+    margin: 25px 0;
+    color: #999;
+}
+
+.modal-divider-wrapper span {
+    background: white;
+    padding: 0 10px;
+}
+
+.modal-divider-wrapper hr {
+    border: 1px solid #d4a574;
+    margin-top: -15px;
+}
+
+.active-baristas-header h3 {
+    margin: 0 0 15px 0;
+    color: #3e2723;
+    font-size: 1.1rem;
+}
+
+.barista-list-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.loading-message {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
+
+.modal-buttons-wrapper {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    border-top: 2px solid #e0d0b8;
+    padding-top: 15px;
+}
+
+.modal-buttons-wrapper button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modal-cancel-btn-style {
+    background: #999;
+    color: white;
+}
+
+.modal-cancel-btn-style:hover {
+    background: #888;
+}
+
+.modal-done-btn-style {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+}
+
+.modal-done-btn-style:hover {
+    background: linear-gradient(135deg, #1976D2, #0D47A1);
+}
+
+/* Order Assignment Modal */
+.assignment-modal-header {
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+}
+
+.assignment-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-assignment-modal-btn {
+    color: #ffd89b;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.assignment-modal-body {
+    padding: 25px;
+}
+
+.assignment-order-info-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5e6d3, #fff);
+    border: 2px solid #d4a574;
+    border-radius: 12px;
+    border-left: 5px solid #d4a574;
+}
+
+.assignment-action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    border-top: 2px solid #e0d0b8;
+    padding-top: 20px;
+}
+
+.assignment-action-buttons button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.assignment-cancel-btn {
+    background: #999;
+    color: white;
+}
+
+.assignment-cancel-btn:hover {
+    background: #888;
+}
+
+.assignment-confirm-btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.assignment-confirm-btn:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+/* Hidden Audio Element */
+.hidden-audio {
+    display: none;
+}
+
+/* Announcement Notification Styles */
+.announcement-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 500px;
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.announcement-notification.show {
+    display: block;
+}
+
+.announcement-container {
+    background: linear-gradient(135deg, #3e2723, #2c1810);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-left: 5px solid #d4a574;
+}
+
+.announcement-header {
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.announcement-icon {
+    font-size: 24px;
+}
+
+.announcement-title {
+    flex: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.announcement-close {
+    font-size: 28px;
+    cursor: pointer;
+    color: #ffd89b;
+    transition: color 0.3s ease;
+}
+
+.announcement-close:hover {
+    color: #fff;
+}
+
+.announcement-content {
+    background: #f5e6d3;
+    color: #2c1810;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.announcement-content p {
+    margin: 0;
+    word-break: break-word;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.announcement-notification.hide {
+    animation: slideOut 0.5s ease-in-out forwards;
+}
+
+/* Announcement Form */
+#announcementText {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    font-family: 'Dancing Script', cursive, serif;
+    font-size: 16px;
+    color: #2c1810;
+    background: #f5e6d3;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+#announcementText:focus {
+    outline: none;
+    border-color: #8b6f47;
+    background: #fff;
 }

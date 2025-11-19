@@ -345,8 +345,8 @@
             <p class="contact">📞 +250 784 039 011</p>
             <p class="powered">Powered by USAFI COFFEE Shop</p>
             <p class="signature">Made by AJM digital solution</p>
-            <div style="margin-top: 15px;">
-                <a href="barista.html" style="color: #ffd89b; text-decoration: none; font-size: 0.9rem; opacity: 0.7;">
+            <div class="barista-link-container">
+                <a href="barista.html" class="barista-link">
                     🔐 Barista Dashboard
                 </a>
             </div>
@@ -354,7 +354,7 @@
     </div>
 
     <!-- Active Orders Section -->
-    <div class="active-orders-container" id="activeOrdersContainer" style="display: none;">
+    <div class="active-orders-container" id="activeOrdersContainer">
         <div class="active-orders-header">
             <h3>🛒 Your Active Orders</h3>
             <button class="close-orders-btn" id="closeOrdersBtn">✕</button>
@@ -363,18 +363,18 @@
     </div>
 
     <!-- Floating Orders Button -->
-    <button class="floating-orders-btn" id="floatingOrdersBtn" style="display: none;">
+    <button class="floating-orders-btn" id="floatingOrdersBtn">
         <span class="order-count" id="orderCount">0</span>
         🛍️
     </button>
 
     <!-- Customer Notifications Panel (Bottom Left) -->
-    <div id="customerNotificationsPanel" style="position: fixed; bottom: 20px; left: 20px; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); border: 2px solid #d4a574; overflow-y: auto; z-index: 9999; display: none;">
-        <div style="position: sticky; top: 0; background: linear-gradient(135deg, #5c3d2e, #3e2723); color: white; padding: 15px; border-radius: 10px 10px 0 0; border-bottom: 2px solid #d4a574;">
-            <h3 style="margin: 0; font-size: 1rem;">📢 Shop Updates</h3>
-            <button onclick="toggleNotificationsPanel()" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; cursor: pointer; font-size: 1.2rem;">✕</button>
+    <div id="customerNotificationsPanel" class="customer-notifications-panel">
+        <div class="notifications-header">
+            <h3>📢 Shop Updates</h3>
+            <button class="notifications-close-btn" onclick="toggleNotificationsPanel()">✕</button>
         </div>
-        <div id="notificationsContent" style="padding: 15px;">
+        <div id="notificationsContent" class="notifications-content">
             <!-- Notifications will be displayed here -->
         </div>
     </div>

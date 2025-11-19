@@ -1020,3 +1020,142 @@ document.addEventListener('DOMContentLoaded', function() {
         showBaristaDashboard();
     }
 });
+
+// ===== ANNOUNCEMENT SYSTEM =====
+let announcementTimeoutId = null;
+
+function initializeAnnouncements() {
+    loadLatestAnnouncement();
+    // Listen for new announcements in real-time
+    if (database) {
+        database.ref('announcements').limitToLast(1).on('value', (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                const latestKey = Object.keys(data)[Object.keys(data).length - 1];
+                const announcement = data[latestKey];
+                if (announcement) {
+                    displayAnnouncement(announcement.message, announcement.timestamp);
+                }
+            }
+        });
+    }
+}
+
+function loadLatestAnnouncement() {
+    if (database) {
+        database.ref('announcements').limitToLast(1).once('value', (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                const latestKey = Object.keys(data)[Object.keys(data).length - 1];
+                const announcement = data[latestKey];
+                if (announcement) {
+                    displayAnnouncement(announcement.message, announcement.timestamp);
+                }
+            }
+        });
+    }
+}
+
+function displayAnnouncement(message, timestamp) {
+    const notification = document.getElementById('announcementNotification');
+    const content = document.getElementById('announcementContent');
+    
+    content.innerHTML = `<p>${message}</p>`;
+    notification.classList.add('show');
+    notification.classList.remove('hide');
+    
+    // Clear existing timeout
+    if (announcementTimeoutId) {
+        clearTimeout(announcementTimeoutId);
+    }
+    
+    // Auto-hide after 5 seconds
+    announcementTimeoutId = setTimeout(() => {
+        closeAnnouncement();
+    }, 5000);
+}
+
+function closeAnnouncement() {
+    const notification = document.getElementById('announcementNotification');
+    notification.classList.add('hide');
+    
+    setTimeout(() => {
+        notification.classList.remove('show', 'hide');
+    }, 500);
+    
+    if (announcementTimeoutId) {
+        clearTimeout(announcementTimeoutId);
+        announcementTimeoutId = null;
+    }
+}
+
+function submitAnnouncement(event) {
+    event.preventDefault();
+    const text = document.getElementById('announcementText').value.trim();
+    
+    if (!text) {
+        alert('Please enter an announcement message');
+        return;
+    }
+    
+    if (text.length > 500) {
+        alert('Announcement must be 500 characters or less');
+        return;
+    }
+    
+    if (database) {
+        database.ref('announcements').push({
+            message: text,
+            timestamp: new Date().toISOString(),
+            postedBy: currentUser || 'Manager'
+        }, (error) => {
+            if (error) {
+                console.error('Error posting announcement:', error);
+                alert('Error posting announcement. Please try again.');
+            } else {
+                alert('Announcement posted successfully!');
+                document.getElementById('announcementForm').reset();
+                document.getElementById('announcementModal').style.display = 'none';
+            }
+        });
+    } else {
+        // Offline mode - use localStorage
+        try {
+            const announcement = {
+                message: text,
+                timestamp: new Date().toISOString(),
+                postedBy: currentUser || 'Manager'
+            };
+            localStorage.setItem('lastAnnouncement', JSON.stringify(announcement));
+            alert('Announcement posted successfully!');
+            document.getElementById('announcementForm').reset();
+            document.getElementById('announcementModal').style.display = 'none';
+            displayAnnouncement(text, new Date().toISOString());
+        } catch (error) {
+            console.error('Error posting announcement:', error);
+            alert('Error posting announcement. Please try again.');
+        }
+    }
+}
+
+// Initialize announcements when page loads
+window.addEventListener('load', () => {
+    setTimeout(initializeAnnouncements, 500);
+    
+    // Setup announcement modal handlers
+    const announcementModal = document.getElementById('announcementModal');
+    const closeAnnouncementBtn = document.getElementById('closeAnnouncementModal');
+    const postAnnouncementBtn = document.getElementById('postAnnouncementBtn');
+    
+    if (postAnnouncementBtn) {
+        postAnnouncementBtn.addEventListener('click', () => {
+            announcementModal.style.display = 'block';
+        });
+    }
+    
+    if (closeAnnouncementBtn) {
+        closeAnnouncementBtn.addEventListener('click', () => {
+            announcementModal.style.display = 'none';
+        });
+    }
+});

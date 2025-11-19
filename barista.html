@@ -62,24 +62,24 @@
             
             <!-- Role Selection -->
             <div class="role-selector" id="roleSelector">
-                <p style="text-align: center; margin-bottom: 20px; color: #5c3d2e; font-weight: bold;">Select Your Role</p>
+                <p class="role-selector-title">Select Your Role</p>
                 <button type="button" class="role-btn" onclick="selectRole('barista')">👨‍💼 Barista</button>
                 <button type="button" class="role-btn" onclick="selectRole('manager')">📊 Manager</button>
             </div>
             
             <!-- Login Form -->
-            <form id="loginForm" onsubmit="handleLogin(event)" style="display: none;">
+            <form id="loginForm" onsubmit="handleLogin(event)" class="hidden-form">
                 <!-- Barista Login Info -->
-                <div id="baristaLoginInfo" style="background: linear-gradient(135deg, #f5e6d3, #fff); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #d4a574; display: none;">
-                    <p style="margin: 0 0 10px 0; color: #3e2723; font-weight: bold;">👨‍💼 Barista Login</p>
-                    <p style="margin: 0 0 8px 0; color: #666; font-size: 0.9rem;">Use the <strong>name created by the manager</strong></p>
-                    <p style="margin: 0; color: #666; font-size: 0.85rem;">Password & Keyword: Contact your manager</p>
+                <div id="baristaLoginInfo" class="barista-login-info">
+                    <p class="barista-login-title">👨‍💼 Barista Login</p>
+                    <p class="barista-login-text">Use the <strong>name created by the manager</strong></p>
+                    <p class="barista-login-text-small">Password & Keyword: Contact your manager</p>
                 </div>
                 
                 <div class="form-group">
                     <label for="username">👨‍💼 Your User Name *</label>
                     <input type="text" id="username" placeholder="Use your name as created by manager" required>
-                    <small style="color: #999; display: block; margin-top: 5px;">Must match the name registered in the system</small>
+                    <small class="form-small-text">Must match the name registered in the system</small>
                 </div>
                 <div class="form-group">
                     <label for="password">🔐 Password:</label>
@@ -94,12 +94,12 @@
             <div class="login-error" id="loginError"></div>
             <div class="login-footer">
                 <a href="menu.html" class="home-btn">🏠 Back to Menu</a>
-                <button type="button" class="back-role-btn" id="backRoleBtn" onclick="backToRoleSelection()" style="display: none;">← Back</button>
+                <button type="button" class="back-role-btn hidden" id="backRoleBtn" onclick="backToRoleSelection()">← Back</button>
             </div>
         </div>
     </div>
 
-    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+    <div class="dashboard-container" id="dashboardContainer">
         <!-- Header -->
         <header class="dashboard-header">
             <div class="header-content">
@@ -160,13 +160,13 @@
         </main>
 
         <!-- Footer -->
-        <footer style="background: linear-gradient(135deg, #3e2723, #2c1810); padding: 20px; text-align: center; margin-top: 30px; border-top: 3px solid #d4a574;">
+        <footer class="dashboard-footer">
             <p class="signature">Made by AJM digital solution</p>
         </footer>
     </div>
 
     <!-- MANAGER DASHBOARD -->
-    <div class="manager-dashboard" id="managerDashboard" style="display: none;">
+    <div class="manager-dashboard" id="managerDashboard">
         <!-- Manager Header -->
         <header class="dashboard-header">
             <div class="header-content">
@@ -198,6 +198,7 @@
         <div class="controls-bar">
             <div class="controls-left">
                 <button class="control-btn" id="manageBaristaBtn">👨‍💼 Manage Baristas</button>
+                <button class="control-btn" id="postAnnouncementBtn">📢 Post Announcement</button>
                 <button class="control-btn" id="refreshManagerBtn">🔄 Refresh</button>
             </div>
             <div class="controls-right">
@@ -208,18 +209,18 @@
 
         <!-- Manager Content -->
         <main class="orders-section">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 20px;">
+            <div class="manager-content-wrapper">
                 <!-- Orders List -->
                 <div>
-                    <h2 style="color: #3e2723; margin-bottom: 15px;">📋 All Orders</h2>
+                    <h2 class="manager-orders-header">📋 All Orders</h2>
                     <div id="managerOrdersContainer">
                         <!-- Orders will be listed here -->
                     </div>
                 </div>
                 <!-- Baristas List -->
                 <div>
-                    <h2 style="color: #3e2723; margin-bottom: 15px;">👥 Baristas</h2>
-                    <div id="baristasListContainer" style="border: 2px solid #d4a574; border-radius: 10px; padding: 15px; background: rgba(255,255,255,0.8);">
+                    <h2 class="manager-baristas-header">👥 Baristas</h2>
+                    <div id="baristasListContainer" class="baristas-container">
                         <!-- Baristas will be listed here -->
                     </div>
                 </div>
@@ -227,44 +228,44 @@
         </main>
 
         <!-- Footer -->
-        <footer style="background: linear-gradient(135deg, #3e2723, #2c1810); padding: 20px; text-align: center; margin-top: 30px; border-top: 3px solid #d4a574;">
+        <footer class="dashboard-footer">
             <p class="signature">Made by AJM digital solution</p>
         </footer>
     </div>
 
     <!-- Barista Management Modal -->
     <div class="modal" id="baristaManagementModal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, #5c3d2e, #3e2723); color: #ffd89b; padding: 20px; border-radius: 15px 15px 0 0;">
-                <h2 style="margin: 0; font-size: 1.5rem;">👥 Manage Baristas</h2>
-                <span class="close-modal" id="closeBaristaModal" style="color: #ffd89b; font-size: 2rem; cursor: pointer;">&times;</span>
+        <div class="modal-content modal-content-wrapper">
+            <div class="modal-header barista-management-header">
+                <h2>👥 Manage Baristas</h2>
+                <span class="close-modal close-modal-btn" id="closeBaristaModal">&times;</span>
             </div>
-            <div class="modal-body" style="padding: 25px;">
+            <div class="modal-body modal-body-padding">
                 <!-- Add New Barista Section -->
-                <div style="background: linear-gradient(135deg, #f5e6d3, #fff); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 2px solid #d4a574;">
-                    <h3 style="margin: 0 0 15px 0; color: #3e2723; font-size: 1.1rem;">➕ Add New Barista</h3>
-                    <input type="text" id="baristaNameInput" placeholder="Enter barista name..." style="width: 100%; padding: 12px; margin-bottom: 12px; border: 2px solid #d4a574; border-radius: 8px; font-family: 'Dancing Script', cursive; font-size: 1rem; box-sizing: border-box;">
-                    <button onclick="addBarista()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #4CAF50, #45a049); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1rem; transition: all 0.3s ease;">✓ Add Barista</button>
+                <div class="add-barista-wrapper">
+                    <h3>➕ Add New Barista</h3>
+                    <input type="text" id="baristaNameInput" class="barista-name-input" placeholder="Enter barista name...">
+                    <button onclick="addBarista()" class="add-barista-submit-btn">✓ Add Barista</button>
                 </div>
 
                 <!-- Divider -->
-                <div style="text-align: center; margin: 25px 0; color: #999;">
-                    <span style="background: white; padding: 0 10px;">or</span>
-                    <hr style="border: 1px solid #d4a574; margin-top: -15px;">
+                <div class="modal-divider-wrapper">
+                    <span>or</span>
+                    <hr>
                 </div>
 
                 <!-- Active Baristas List -->
-                <div>
-                    <h3 style="margin: 0 0 15px 0; color: #3e2723; font-size: 1.1rem;">👥 Active Baristas</h3>
-                    <div id="baristaListInModal" style="max-height: 300px; overflow-y: auto;">
-                        <div style="text-align: center; color: #999; padding: 20px;">Loading baristas...</div>
+                <div class="active-baristas-header">
+                    <h3>👥 Active Baristas</h3>
+                    <div id="baristaListInModal" class="barista-list-scroll">
+                        <div class="loading-message">Loading baristas...</div>
                     </div>
                 </div>
 
                 <!-- Modal Footer with Cancel -->
-                <div style="margin-top: 25px; display: flex; gap: 10px; border-top: 2px solid #e0d0b8; padding-top: 15px;">
-                    <button onclick="document.getElementById('baristaManagementModal').style.display = 'none';" style="flex: 1; padding: 12px; background: #999; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1rem; transition: all 0.3s ease;">✕ Cancel</button>
-                    <button onclick="closeBaristaManagementModal()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #2196F3, #1976D2); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1rem; transition: all 0.3s ease;">✓ Done</button>
+                <div class="modal-buttons-wrapper">
+                    <button onclick="document.getElementById('baristaManagementModal').style.display = 'none';" class="modal-cancel-btn-style">✕ Cancel</button>
+                    <button onclick="closeBaristaManagementModal()" class="modal-done-btn-style">✓ Done</button>
                 </div>
             </div>
         </div>
@@ -272,29 +273,29 @@
 
     <!-- Order Assignment Modal -->
     <div class="modal" id="orderAssignmentModal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, #5c3d2e, #3e2723); color: #ffd89b; padding: 20px; border-radius: 15px 15px 0 0;">
-                <h2 style="margin: 0; font-size: 1.5rem;">📋 Assign Order to Barista</h2>
-                <span class="close-modal" id="closeAssignmentModal" style="color: #ffd89b; font-size: 2rem; cursor: pointer;">&times;</span>
+        <div class="modal-content modal-content-wrapper">
+            <div class="modal-header assignment-modal-header">
+                <h2>📋 Assign Order to Barista</h2>
+                <span class="close-modal close-assignment-modal-btn" id="closeAssignmentModal">&times;</span>
             </div>
-            <div class="modal-body" style="padding: 25px;">
+            <div class="modal-body assignment-modal-body">
                 <!-- Order Info Card -->
-                <div id="assignmentOrderInfo" style="margin-bottom: 20px; padding: 20px; background: linear-gradient(135deg, #f5e6d3, #fff); border: 2px solid #d4a574; border-radius: 12px; border-left: 5px solid #d4a574;">
+                <div id="assignmentOrderInfo" class="assignment-order-info-card">
                     <!-- Order info will be here -->
                 </div>
                 
                 <!-- Barista Selection Section -->
-                <div style="background: linear-gradient(135deg, #f9f1e6, #fff); padding: 20px; border-radius: 12px; border: 2px solid #e8d7c3;">
-                    <label style="font-weight: bold; color: #3e2723; display: block; margin-bottom: 12px; font-size: 1.05rem;">👨‍💼 Select Barista to Assign:</label>
-                    <select id="baristaAssignmentSelect" style="width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #d4a574; border-radius: 8px; font-family: 'Dancing Script', cursive; font-size: 1rem; background: white; color: #3e2723; cursor: pointer; transition: all 0.3s ease;">
+                <div class="barista-selection-section">
+                    <label for="baristaAssignmentSelect">👨‍💼 Select Barista to Assign:</label>
+                    <select id="baristaAssignmentSelect" title="Select a barista to assign the order">
                         <option value="">👨‍💼 Choose a barista...</option>
                     </select>
                 </div>
                 
                 <!-- Action Buttons -->
-                <div style="display: flex; gap: 10px; margin-top: 25px; border-top: 2px solid #e0d0b8; padding-top: 20px;">
-                    <button onclick="document.getElementById('orderAssignmentModal').style.display = 'none';" style="flex: 1; padding: 14px; background: #999; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1rem; transition: all 0.3s ease;">✕ Cancel</button>
-                    <button onclick="confirmAssignment()" style="flex: 1; padding: 14px; background: linear-gradient(135deg, #4CAF50, #45a049); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1rem; transition: all 0.3s ease;">✓ Assign Order</button>
+                <div class="assignment-action-buttons">
+                    <button onclick="document.getElementById('orderAssignmentModal').style.display = 'none';" class="assignment-cancel-btn">✕ Cancel</button>
+                    <button onclick="confirmAssignment()" class="assignment-confirm-btn">✓ Assign Order</button>
                 </div>
             </div>
         </div>
@@ -314,9 +315,46 @@
     </div>
 
     <!-- Notification Sound -->
-    <audio id="notificationSound" preload="auto">
+    <audio id="notificationSound" preload="auto" class="hidden-audio">
         <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBSh+zPLaizsIHGm98OScTgwPUKXh8LRgGwU7k9vzzn4yBQ==" type="audio/wav">
     </audio>
+
+    <!-- Shop Announcements Notification -->
+    <div class="announcement-notification" id="announcementNotification">
+        <div class="announcement-container">
+            <div class="announcement-header">
+                <span class="announcement-icon">📢</span>
+                <span class="announcement-title">Shop Updates</span>
+                <span class="announcement-close" onclick="closeAnnouncement()">&times;</span>
+            </div>
+            <div class="announcement-content" id="announcementContent">
+                Loading announcement...
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Post Modal -->
+    <div class="modal" id="announcementModal">
+        <div class="modal-content modal-content-wrapper">
+            <div class="modal-header">
+                <h2>📢 Post Shop Announcement</h2>
+                <span class="close-modal" id="closeAnnouncementModal">&times;</span>
+            </div>
+            <div class="modal-body modal-body-padding">
+                <form id="announcementForm" onsubmit="submitAnnouncement(event)">
+                    <div class="form-group">
+                        <label for="announcementText">📝 Announcement Message:</label>
+                        <textarea id="announcementText" placeholder="Enter your shop announcement or update..." rows="6" required></textarea>
+                        <small class="form-small-text">Max 500 characters. This will be displayed to all staff members.</small>
+                    </div>
+                    <div class="modal-buttons-wrapper">
+                        <button type="button" onclick="document.getElementById('announcementModal').style.display = 'none';" class="modal-cancel-btn-style">✕ Cancel</button>
+                        <button type="submit" class="modal-done-btn-style">📤 Post Announcement</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="staff-script.js"></script>
 </body>
