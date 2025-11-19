@@ -21,6 +21,6 @@ menuImage.addEventListener('touchstart', (e) => {
 // Generate QR code using qrcode.js library
 const qrCodeContainer = document.getElementById('qrcode');
 const qr = qrcode(0, 'M');
-qr.addData('https://hahiyek.github.io/Shazam'); // URL to the menu page
+qr.addData('https://shazam-six.vercel.app'); // URL to the menu page
 qr.make();
 qrCodeContainer.innerHTML = qr.createImgTag(5, 10);
