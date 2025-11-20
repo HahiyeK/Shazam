@@ -356,6 +356,30 @@
         </div>
     </div>
 
-    <script src="staff-script.js"></script>
+    <script>
+        // Wait for Firebase to be ready before loading staff script
+        let firebaseReady = false;
+        let readyChecks = 0;
+        
+        const waitForFirebase = setInterval(() => {
+            if (window.firebaseDB !== undefined) {
+                firebaseReady = true;
+                clearInterval(waitForFirebase);
+                // Now load the staff script
+                const script = document.createElement('script');
+                script.src = 'staff-script.js';
+                document.body.appendChild(script);
+            } else {
+                readyChecks++;
+                if (readyChecks > 50) {
+                    clearInterval(waitForFirebase);
+                    console.warn('Firebase took too long, loading staff-script anyway');
+                    const script = document.createElement('script');
+                    script.src = 'staff-script.js';
+                    document.body.appendChild(script);
+                }
+            }
+        }, 100);
+    </script>
 </body>
 </html>
