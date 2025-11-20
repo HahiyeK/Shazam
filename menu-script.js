@@ -14,6 +14,57 @@ function getOrCreateDeviceId() {
 
 const currentDeviceId = getOrCreateDeviceId();
 
+// Load and display announcements
+function loadAnnouncementsOnMenu() {
+    if (database) {
+        // Listen for latest announcement
+        database.ref('announcements').limitToLast(1).on('value', (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                const latestKey = Object.keys(data)[Object.keys(data).length - 1];
+                const announcement = data[latestKey];
+                if (announcement) {
+                    displayAnnouncementOnMenu(announcement.message);
+                }
+            }
+        });
+    }
+}
+
+function displayAnnouncementOnMenu(message) {
+    const notifPanel = document.getElementById('customerNotificationsPanel');
+    const notifContent = document.getElementById('notificationsContent');
+    
+    if (!notifPanel || !notifContent) return;
+    
+    // Create announcement element
+    const notif = document.createElement('div');
+    notif.style.cssText = `
+        padding: 15px;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #fff3cd, #fff8e1);
+        border-left: 4px solid #ffc107;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    `;
+    
+    notif.innerHTML = `
+        <strong style="color: #ff6f00;">📢 Shop Update</strong><br>
+        <span style="color: #333;">${message}</span>
+    `;
+    
+    // Clear old announcements and add new one at top
+    const existingAnnouncements = notifContent.querySelectorAll('[data-type="announcement"]');
+    existingAnnouncements.forEach(el => el.remove());
+    
+    notif.setAttribute('data-type', 'announcement');
+    notifContent.insertBefore(notif, notifContent.firstChild);
+    
+    // Show notifications panel
+    notifPanel.style.display = 'block';
+}
+
 // Menu functionality with Order System
 function initializeMenu() {
     // Check if Firebase is available
@@ -147,6 +198,7 @@ function initializeMenu() {
     
     // Initialize
     loadOrdersFromFirebase();
+    loadAnnouncementsOnMenu();
     
     // Search functionality
     searchInput.addEventListener('input', function(e) {
