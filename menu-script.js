@@ -2,7 +2,7 @@
 let database = window.firebaseDB || null;
 
 // Menu functionality with Order System
-document.addEventListener('DOMContentLoaded', function() {
+function initializeMenu() {
     // Check if Firebase is available
     if (database) {
         console.log('✅ Firebase initialized successfully');
@@ -577,4 +577,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('🎉 SHAZAM Coffee Shop App with Firebase Loaded!');
     console.log('📱 Mobile responsive | 🔍 Search & filter | 🛒 Order system active | 🌐 Cloud synced');
-});
+}
+
+// Initialize menu when script loads (handles both DOMContentLoaded and dynamic loading)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMenu);
+} else {
+    // DOM already loaded (script loaded dynamically)
+    initializeMenu();
+}
