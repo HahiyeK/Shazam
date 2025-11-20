@@ -1,18 +1,18 @@
 {
   "rules": {
+    ".read": true,
+    ".write": true,
     "orders": {
       ".read": true,
-      ".write": true,
-      "$orderId": {
-        ".validate": "newData.exists()"
-      }
+      ".write": true
     },
     "baristas": {
       ".read": true,
-      ".write": true,
-      "$baristaId": {
-        ".validate": "newData.exists()"
-      }
+      ".write": true
+    },
+    "announcements": {
+      ".read": true,
+      ".write": true
     }
   }
 }
