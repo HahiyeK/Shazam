@@ -20,9 +20,4 @@ if (menuImage) {
     });
 }
 
-// Generate QR code using qrcode.js library
-const qrCodeContainer = document.getElementById('qrcode');
-const qr = qrcode(0, 'M');
-qr.addData('https://shazam-six.vercel.app/menu.html'); // URL to the menu page
-qr.make();
-qrCodeContainer.innerHTML = qr.createImgTag(5, 10);
+// QR code image is now displayed as a static image in the HTML
