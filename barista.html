@@ -9,11 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="barista-style.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-    <script>
-        // Initialize Firebase with error handling
+    <!-- Firebase SDK (Modern Module Import) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+        
         console.log('Firebase scripts loading...');
         
         const firebaseConfig = {
@@ -26,30 +26,15 @@
             databaseURL: "https://shazam-coffee-default-rtdb.firebaseio.com"
         };
         
-        // Wait for firebase to be available
-        let initAttempts = 0;
-        const initFirebase = setInterval(() => {
-            if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-                clearInterval(initFirebase);
-                try {
-                    if (!firebase.apps.length) {
-                        firebase.initializeApp(firebaseConfig);
-                    }
-                    window.firebaseDB = firebase.database();
-                    console.log('✅ Firebase initialized successfully');
-                } catch (error) {
-                    console.error('Firebase init error:', error);
-                    window.firebaseDB = null;
-                }
-            } else {
-                initAttempts++;
-                if (initAttempts > 50) {
-                    clearInterval(initFirebase);
-                    console.warn('⚠️ Firebase CDN not loaded. Using offline mode (localStorage). The app will still work fine!');
-                    window.firebaseDB = null;
-                }
-            }
-        }, 200);
+        try {
+            const app = initializeApp(firebaseConfig);
+            window.firebaseDB = getDatabase(app);
+            console.log('✅ Firebase initialized successfully');
+        } catch (error) {
+            console.error('Firebase init error:', error);
+            window.firebaseDB = null;
+            console.warn('⚠️ Firebase failed to load. Using offline mode (localStorage). The app will still work fine!');
+        }
     </script>
 </head>
 <body>
