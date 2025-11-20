@@ -428,29 +428,13 @@
     </div>
 
     <script>
-        // Wait for Firebase to be ready before loading menu script
-        let firebaseReady = false;
-        let readyChecks = 0;
-        
-        const waitForFirebase = setInterval(() => {
-            if (window.firebaseDB !== undefined) {
-                firebaseReady = true;
-                clearInterval(waitForFirebase);
-                // Now load the menu script
-                const script = document.createElement('script');
-                script.src = 'menu-script.js';
-                document.body.appendChild(script);
-            } else {
-                readyChecks++;
-                if (readyChecks > 50) {
-                    clearInterval(waitForFirebase);
-                    console.warn('Firebase took too long, loading menu-script anyway');
-                    const script = document.createElement('script');
-                    script.src = 'menu-script.js';
-                    document.body.appendChild(script);
-                }
-            }
-        }, 100);
+        // Load menu script with a small delay to ensure Firebase initialization completes
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'menu-script.js';
+            document.body.appendChild(script);
+            console.log('Menu script loaded. Firebase DB status:', window.firebaseDB ? '✅ Ready' : '⚠️ Offline mode');
+        }, 500);
     </script>
 </body>
 </html>
