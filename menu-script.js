@@ -1,6 +1,19 @@
 // Firebase is initialized in HTML, use the global reference
 let database = window.firebaseDB || null;
 
+// Generate unique Device ID for this device
+function getOrCreateDeviceId() {
+    let deviceId = localStorage.getItem('deviceId');
+    if (!deviceId) {
+        deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('deviceId', deviceId);
+        console.log('🆔 New Device ID created:', deviceId);
+    }
+    return deviceId;
+}
+
+const currentDeviceId = getOrCreateDeviceId();
+
 // Menu functionality with Order System
 function initializeMenu() {
     // Check if Firebase is available
@@ -45,7 +58,10 @@ function initializeMenu() {
                 }
                 firebaseListener = database.ref('orders').on('value', function(snapshot) {
                     const data = snapshot.val();
-                    orders = data ? Object.values(data) : [];
+                    const allOrders = data ? Object.values(data) : [];
+                    // Filter to only show orders from this device
+                    orders = allOrders.filter(o => o.deviceId === currentDeviceId);
+                    console.log('📱 Filtered orders for this device. Total in Firebase:', allOrders.length, 'This device:', orders.length);
                     updateOrdersDisplay();
                     checkForCompletedOrders();
                 }, function(error) {
@@ -117,9 +133,11 @@ function initializeMenu() {
     function loadFromLocalStorage() {
         try {
             const stored = localStorage.getItem('coffeeOrders');
-            orders = stored ? JSON.parse(stored) : [];
+            const allOrders = stored ? JSON.parse(stored) : [];
+            // Filter to only show orders from this device
+            orders = allOrders.filter(o => o.deviceId === currentDeviceId);
             updateOrdersDisplay();
-            console.log('📱 Loaded orders from local storage (offline mode)');
+            console.log('📱 Loaded orders from local storage (offline mode). This device orders:', orders.length);
         } catch (error) {
             console.error('Error loading from localStorage:', error);
             orders = [];
@@ -262,7 +280,8 @@ function initializeMenu() {
             specialInstructions: specialInstructions,
             orderTime: new Date().toISOString(),
             endTime: new Date(Date.now() + pickupTime * 60000).toISOString(),
-            status: 'active'
+            status: 'active',
+            deviceId: currentDeviceId  // Tag order with this device
         };
         
         // Save to Firebase or localStorage
