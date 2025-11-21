@@ -75,7 +75,7 @@ body {
     border: 2px solid #d4a574;
     border-radius: 25px;
     font-size: 1rem;
-    font-family: 'Dancing Script', cursive, serif;
+    font-family: 'Helvetica', cursive, serif;
     font-weight: bold;
     outline: none;
     transition: all 0.3s ease;
@@ -95,8 +95,9 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 25px 20px;
-    background: linear-gradient(to bottom, #f5e6d3, #fff);
-    border-bottom: 2px solid #e0d0b8;
+    background: linear-gradient(135deg, #8b6f47, #ad7e4c);
+    border-radius: 15px;
+    /*border-bottom: 2px solid #e0d0b8; */
 }
 
 .filter-btn {
@@ -129,12 +130,14 @@ body {
 /* Menu Content */
 .menu-content {
     padding: 30px 20px;
-    background: white;
+    background: linear-gradient(135deg, #8b6f47, #d4a574);
 }
 
 .menu-section {
     margin-bottom: 40px;
     animation: fadeIn 0.5s ease-in;
+    background: linear-gradient(135deg, #5c3d2e, #8b6f47, #d4a574);
+    border-radius: 15px;
 }
 
 .menu-section.hidden {
@@ -148,7 +151,8 @@ body {
 
 .section-title {
     font-size: clamp(1.5rem, 4vw, 2rem);
-    color: #3e2723;
+    font-family: 'Helvetica', cursive, serif;
+    color: #ffffff;
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 3px solid #d4a574;
@@ -211,6 +215,7 @@ body {
 
 .item-price {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-family: 'Helvetica', cursive, serif;
     color: #5c3d2e;
     font-weight: bold;
     background: linear-gradient(135deg, #d4a574, #ffd89b);
@@ -413,6 +418,7 @@ body {
 
 .selected-price {
     font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-family: 'Helvetica', cursive, serif;
     font-weight: bold;
     color: #5c3d2e;
     background: linear-gradient(135deg, #d4a574, #ffd89b);
@@ -431,6 +437,8 @@ body {
     color: #3e2723;
     font-weight: 600;
     font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+    font-family: 'Helvetica', cursive, serif;
+    
 }
 
 .form-group input,
@@ -441,7 +449,7 @@ body {
     border: 2px solid #e0d0b8;
     border-radius: 10px;
     font-size: 1rem;
-    font-family: inherit;
+    font-family: 'Helvetica', cursive, serif;
     transition: all 0.3s ease;
     background: white;
 }
