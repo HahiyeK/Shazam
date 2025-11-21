@@ -34,9 +34,9 @@ function loadAnnouncementsOnMenu() {
 function displayAnnouncementOnMenu(message) {
     const notifPanel = document.getElementById('customerNotificationsPanel');
     const notifContent = document.getElementById('notificationsContent');
-    
+
     if (!notifPanel || !notifContent) return;
-    
+
     // Create announcement element
     const notif = document.createElement('div');
     notif.style.cssText = `
@@ -48,19 +48,19 @@ function displayAnnouncementOnMenu(message) {
         font-size: 0.95rem;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     `;
-    
+
     notif.innerHTML = `
         <strong style="color: #ff6f00;">📢 Shop Update</strong><br>
         <span style="color: #333;">${message}</span>
     `;
-    
+
     // Clear old announcements and add new one at top
     const existingAnnouncements = notifContent.querySelectorAll('[data-type="announcement"]');
     existingAnnouncements.forEach(el => el.remove());
-    
+
     notif.setAttribute('data-type', 'announcement');
     notifContent.insertBefore(notif, notifContent.firstChild);
-    
+
     // Show notifications panel
     notifPanel.style.display = 'block';
 }
@@ -78,27 +78,27 @@ function initializeMenu() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const menuSections = document.querySelectorAll('.menu-section');
     const menuItems = document.querySelectorAll('.menu-item');
-    
+
     // Order modal elements
     const orderModal = document.getElementById('orderModal');
     const closeModal = document.getElementById('closeModal');
     const orderForm = document.getElementById('orderForm');
     const selectedItemName = document.getElementById('selectedItemName');
     const selectedItemPrice = document.getElementById('selectedItemPrice');
-    
+
     // Active orders elements
     const activeOrdersContainer = document.getElementById('activeOrdersContainer');
     const activeOrdersList = document.getElementById('activeOrdersList');
     const floatingOrdersBtn = document.getElementById('floatingOrdersBtn');
     const closeOrdersBtn = document.getElementById('closeOrdersBtn');
     const orderCount = document.getElementById('orderCount');
-    
+
     // Order tracking
     let orders = [];
     let selectedItem = null;
     let countdownIntervals = {};
     let firebaseListener = null;
-    
+
     // Load orders from Firebase or localStorage fallback
     function loadOrdersFromFirebase() {
         // Try Firebase first
@@ -107,7 +107,7 @@ function initializeMenu() {
                 if (firebaseListener) {
                     firebaseListener.off();
                 }
-                firebaseListener = database.ref('orders').on('value', function(snapshot) {
+                firebaseListener = database.ref('orders').on('value', function (snapshot) {
                     const data = snapshot.val();
                     const allOrders = data ? Object.values(data) : [];
                     // Filter to only show orders from this device
@@ -115,7 +115,7 @@ function initializeMenu() {
                     console.log('📱 Filtered orders for this device. Total in Firebase:', allOrders.length, 'This device:', orders.length);
                     updateOrdersDisplay();
                     checkForCompletedOrders();
-                }, function(error) {
+                }, function (error) {
                     console.error('Firebase error:', error);
                     loadFromLocalStorage(); // Fallback
                 });
@@ -128,7 +128,7 @@ function initializeMenu() {
             loadFromLocalStorage();
         }
     }
-    
+
     // Check for completed orders and show notifications
     function checkForCompletedOrders() {
         orders.forEach(order => {
@@ -141,15 +141,15 @@ function initializeMenu() {
             }
         });
     }
-    
+
     // Show order completion notification
     function showOrderCompletionNotification(order) {
         const notifPanel = document.getElementById('customerNotificationsPanel');
         const notifContent = document.getElementById('notificationsContent');
-        
+
         // Show panel if hidden
         notifPanel.style.display = 'block';
-        
+
         // Create notification element
         const notif = document.createElement('div');
         notif.style.cssText = `
@@ -160,26 +160,26 @@ function initializeMenu() {
             border-radius: 6px;
             font-size: 0.95rem;
         `;
-        
+
         notif.innerHTML = `
             <strong style="color: #4CAF50;">✓ Order Ready!</strong><br>
             <span style="color: #3e2723;">${order.itemName} for <strong>${order.customerName}</strong> is ready for pickup!</span>
         `;
-        
+
         notifContent.insertBefore(notif, notifContent.firstChild);
-        
+
         // Auto-remove notification after 10 seconds
         setTimeout(() => {
             notif.style.opacity = '0.5';
         }, 8000);
     }
-    
+
     // Toggle notifications panel
-    window.toggleNotificationsPanel = function() {
+    window.toggleNotificationsPanel = function () {
         const panel = document.getElementById('customerNotificationsPanel');
         panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
     }
-    
+
     // Load from localStorage (fallback)
     function loadFromLocalStorage() {
         try {
@@ -195,23 +195,23 @@ function initializeMenu() {
             updateOrdersDisplay();
         }
     }
-    
+
     // Initialize
     loadOrdersFromFirebase();
     loadAnnouncementsOnMenu();
-    
+
     // Search functionality
-    searchInput.addEventListener('input', function(e) {
+    searchInput.addEventListener('input', function (e) {
         const searchTerm = e.target.value.toLowerCase().trim();
         let hasResults = false;
-        
+
         menuSections.forEach(section => {
             const items = section.querySelectorAll('.menu-item');
             let sectionHasResults = false;
-            
+
             items.forEach(item => {
                 const itemName = item.querySelector('.item-name').textContent.toLowerCase();
-                
+
                 if (itemName.includes(searchTerm)) {
                     item.style.display = 'flex';
                     sectionHasResults = true;
@@ -220,32 +220,32 @@ function initializeMenu() {
                     item.style.display = 'none';
                 }
             });
-            
+
             if (searchTerm === '') {
                 section.style.display = 'block';
             } else {
                 section.style.display = sectionHasResults ? 'block' : 'none';
             }
         });
-        
+
         showNoResults(!hasResults && searchTerm !== '');
     });
-    
+
     // Category filter functionality
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
+
             const category = this.getAttribute('data-category');
             searchInput.value = '';
-            
+
             menuSections.forEach(section => {
                 const sectionCategory = section.getAttribute('data-category');
                 const items = section.querySelectorAll('.menu-item');
-                
+
                 items.forEach(item => item.style.display = 'flex');
-                
+
                 if (category === 'all') {
                     section.classList.remove('hidden');
                     section.style.display = 'block';
@@ -259,67 +259,83 @@ function initializeMenu() {
                     }
                 }
             });
-            
+
             const firstVisibleSection = document.querySelector('.menu-section:not(.hidden)');
             if (firstVisibleSection && category !== 'all') {
                 firstVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
-    
+
     // Menu item click to open order modal
     menuItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             const itemName = this.querySelector('.item-name').textContent;
             const itemPrice = this.querySelector('.item-price').textContent;
-            
+
             selectedItem = {
                 name: itemName,
                 price: itemPrice
             };
-            
+
             selectedItemName.textContent = itemName;
             selectedItemPrice.textContent = itemPrice;
-            
+
             openModal();
         });
     });
-    
+
     // Open modal
     function openModal() {
         orderModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-    
+
     // Close modal
     function closeOrderModal() {
         orderModal.classList.remove('active');
         document.body.style.overflow = 'auto';
         orderForm.reset();
     }
-    
+
     closeModal.addEventListener('click', closeOrderModal);
-    
-    orderModal.addEventListener('click', function(e) {
+
+    orderModal.addEventListener('click', function (e) {
         if (e.target === orderModal) {
             closeOrderModal();
         }
     });
-    
+
+    // Check if ordering is allowed (6 AM to midnight)
+    function isOrderingTimeAllowed() {
+        const now = new Date();
+        const hour = now.getHours();
+        // System accepts orders from 06:00 AM to 00:00 (midnight)
+        // 6 AM = hour 6, Midnight = hour 0 (of next day)
+        // So allow if: hour >= 6 (6 AM onwards)
+        return hour >= 6;
+    }
+
     // Handle order form submission
-    orderForm.addEventListener('submit', function(e) {
+    orderForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         const customerName = document.getElementById('customerName').value.trim();
         const customerPhone = document.getElementById('customerPhone').value.trim();
         const pickupTime = parseInt(document.getElementById('pickupTime').value);
         const specialInstructions = document.getElementById('specialInstructions').value.trim();
-        
+
         if (!customerName || !customerPhone || !pickupTime) {
             showNotification('❌ Please fill in all required fields.');
             return;
         }
-        
+
+        // Check if ordering is allowed
+        if (!isOrderingTimeAllowed()) {
+            showNotification('❌ Sorry! Ordering is not available right now. We accept orders from 6:00 AM to 12:00 AM (midnight). Please try again during business hours.');
+            return;
+        }
+
         // Create order
         const orderId = Date.now().toString();
         const order = {
@@ -335,22 +351,22 @@ function initializeMenu() {
             status: 'active',
             deviceId: currentDeviceId  // Tag order with this device
         };
-        
+
         // Save to Firebase or localStorage
         if (database) {
             // Try Firebase first
             try {
-                const timeoutPromise = new Promise((_, reject) => 
+                const timeoutPromise = new Promise((_, reject) =>
                     setTimeout(() => reject(new Error('Request timeout')), 10000)
                 );
-                
+
                 Promise.race([
                     database.ref('orders/' + orderId).set(order),
                     timeoutPromise
                 ]).then(() => {
                     closeOrderModal();
                     showNotification(`✅ Order placed successfully! Your ${order.itemName} will be ready in ${pickupTime} minutes.`);
-                    
+
                     // Auto-open orders panel
                     setTimeout(() => {
                         activeOrdersContainer.style.display = 'block';
@@ -368,7 +384,7 @@ function initializeMenu() {
             saveToLocalStorage(order);
         }
     });
-    
+
     // Save order to localStorage (fallback)
     function saveToLocalStorage(order) {
         try {
@@ -376,10 +392,10 @@ function initializeMenu() {
             let ordersList = stored ? JSON.parse(stored) : [];
             ordersList.push(order);
             localStorage.setItem('coffeeOrders', JSON.stringify(ordersList));
-            
+
             closeOrderModal();
             showNotification(`✅ Order placed successfully (offline)! Your ${order.itemName} will be ready in ${order.pickupMinutes} minutes.`);
-            
+
             // Auto-open orders panel and reload
             setTimeout(() => {
                 activeOrdersContainer.style.display = 'block';
@@ -390,17 +406,17 @@ function initializeMenu() {
             console.error('Error saving to localStorage:', error);
         }
     }
-    
+
     // Update orders display
     function updateOrdersDisplay() {
         // Clear intervals
         Object.values(countdownIntervals).forEach(interval => clearInterval(interval));
         countdownIntervals = {};
-        
+
         // Remove expired orders
         const now = Date.now();
         const ordersToKeep = [];
-        
+
         orders.forEach(order => {
             const endTime = new Date(order.endTime).getTime();
             if (now - endTime < 3600000) { // Keep for 1 hour after ready
@@ -412,44 +428,44 @@ function initializeMenu() {
                 }
             }
         });
-        
+
         orders = ordersToKeep;
-        
+
         // Update count
         const activeCount = orders.filter(o => o.status === 'active').length;
         orderCount.textContent = activeCount;
-        
+
         if (activeCount > 0) {
             floatingOrdersBtn.style.display = 'flex';
         } else {
             floatingOrdersBtn.style.display = 'none';
             activeOrdersContainer.style.display = 'none';
         }
-        
+
         // Render orders
         if (orders.length === 0) {
             activeOrdersList.innerHTML = '<div class="empty-orders">No active orders</div>';
             return;
         }
-        
+
         activeOrdersList.innerHTML = '';
-        
+
         orders.forEach((order, index) => {
             const orderCard = createOrderCard(order, index);
             activeOrdersList.appendChild(orderCard);
             startCountdown(order);
         });
     }
-    
+
     // Create order card
     function createOrderCard(order, index) {
         const card = document.createElement('div');
         card.className = 'order-card';
         card.id = `order-${order.id}`;
-        
+
         const remainingMs = new Date(order.endTime).getTime() - Date.now();
         const isReady = remainingMs <= 0;
-        
+
         card.innerHTML = `
             <div class="order-card-header">
                 <span class="order-number">Order #${orders.length - index}</span>
@@ -464,50 +480,50 @@ function initializeMenu() {
             </div>
             <button class="cancel-order-btn" onclick="cancelOrder('${order.id}')">Cancel Order</button>
         `;
-        
+
         return card;
     }
-    
+
     // Start countdown for an order
     function startCountdown(order) {
         const countdownElement = document.getElementById(`countdown-${order.id}`);
         if (!countdownElement) return;
-        
+
         const updateCountdown = () => {
             const now = Date.now();
             const endTime = new Date(order.endTime).getTime();
             const remainingMs = endTime - now;
-            
+
             if (remainingMs <= 0) {
                 countdownElement.innerHTML = '✅ ORDER READY FOR PICKUP!';
                 countdownElement.classList.add('order-ready');
                 clearInterval(countdownIntervals[order.id]);
-                
+
                 // Update status in Firebase
                 if (database) {
                     database.ref('orders/' + order.id + '/status').set('ready');
                 }
-                
+
                 showNotification(`🎉 Your ${order.itemName} is ready for pickup!`);
                 return;
             }
-            
+
             const totalSeconds = Math.floor(remainingMs / 1000);
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-            
+
             countdownElement.innerHTML = `
                 <span class="countdown-time">${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}</span>
                 <span class="countdown-label">Time remaining</span>
             `;
         };
-        
+
         updateCountdown();
         countdownIntervals[order.id] = setInterval(updateCountdown, 1000);
     }
-    
+
     // Cancel order
-    window.cancelOrder = function(orderId) {
+    window.cancelOrder = function (orderId) {
         if (confirm('Are you sure you want to cancel this order?')) {
             if (database) {
                 // Try Firebase first
@@ -523,7 +539,7 @@ function initializeMenu() {
             }
         }
     };
-    
+
     // Cancel order from localStorage
     function cancelOrderLocal(orderId) {
         try {
@@ -538,17 +554,17 @@ function initializeMenu() {
             console.error('Error cancelling order:', error);
         }
     }
-    
+
     // Toggle orders panel
-    floatingOrdersBtn.addEventListener('click', function() {
+    floatingOrdersBtn.addEventListener('click', function () {
         const isVisible = activeOrdersContainer.style.display === 'block';
         activeOrdersContainer.style.display = isVisible ? 'none' : 'block';
     });
-    
-    closeOrdersBtn.addEventListener('click', function() {
+
+    closeOrdersBtn.addEventListener('click', function () {
         activeOrdersContainer.style.display = 'none';
     });
-    
+
     // Show notification
     function showNotification(message) {
         const notification = document.createElement('div');
@@ -568,17 +584,17 @@ function initializeMenu() {
         `;
         notification.textContent = message;
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => notification.remove(), 300);
         }, 3000);
     }
-    
+
     // Show no results message
     function showNoResults(show) {
         let noResultsMsg = document.querySelector('.no-results');
-        
+
         if (show) {
             if (!noResultsMsg) {
                 noResultsMsg = document.createElement('div');
@@ -593,7 +609,7 @@ function initializeMenu() {
             }
         }
     }
-    
+
     // Add animations
     const style = document.createElement('style');
     style.textContent = `
@@ -607,14 +623,14 @@ function initializeMenu() {
         }
     `;
     document.head.appendChild(style);
-    
+
     // Scroll animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
-    const observer = new IntersectionObserver(function(entries) {
+
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -622,30 +638,30 @@ function initializeMenu() {
             }
         });
     }, observerOptions);
-    
+
     menuSections.forEach(section => {
         section.style.opacity = '0';
         section.style.transform = 'translateY(20px)';
         section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         observer.observe(section);
     });
-    
+
     // Keyboard navigation
-    searchInput.addEventListener('keydown', function(e) {
+    searchInput.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             this.value = '';
             this.dispatchEvent(new Event('input'));
             this.blur();
         }
     });
-    
+
     // Escape key to close modal
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && orderModal.classList.contains('active')) {
             closeOrderModal();
         }
     });
-    
+
     console.log('🎉 SHAZAM Coffee Shop App with Firebase Loaded!');
     console.log('📱 Mobile responsive | 🔍 Search & filter | 🛒 Order system active | 🌐 Cloud synced');
 }

@@ -1,53 +1,71 @@
-MANAGER DASHBOARD ORDER VISIBILITY FIX
-=====================================
+MANAGER DASHBOARD ENHANCEMENTS
+==============================
 
-PROBLEM:
+PREVIOUS PROBLEM FIXED (Phase 1):
 The manager was not seeing customer orders in the manager dashboard, making it impossible 
 to assign orders to baristas.
 
-ROOT CAUSES IDENTIFIED:
-1. Orders loading without proper real-time updates in manager view
-2. No fallback to localStorage if Firebase temporarily unavailable
-3. Orders not being properly rendered with visibility into key details
-4. Missing orderTime data for order sorting
+NEW FEATURES ADDED (Phase 2):
+Managers now have powerful tools to manage daily order workflow efficiently.
 
-FIXES APPLIED:
+FEATURES IMPLEMENTED:
 
-1. ENHANCED MANAGER DATA LOADING (staff-script.js)
-   - Added loadManagerDataFromFirebase() for proper real-time listening
-   - Added loadManagerDataFromLocalStorage() fallback
-   - Added error handling with graceful fallback
-   - Added console logging for debugging order loading
-   - Fixed pending orders filter to include orders without status
+1. DATE FILTERING & SORTING (staff-script.js)
+   - Added date picker to manager control bar
+   - Orders filtered by selected date
+   - Default view shows today's orders only
+   - "🔄 Today" button returns to current day view
+   - Date sorting helper functions (getStartOfDay, getEndOfDay)
+   - Functions: setManagerDateFilter(), resetManagerDateFilter()
 
-2. IMPROVED ORDER CARD RENDERING (staff-script.js)
-   - Orders now sorted by most recent first
-   - Added order timestamp display (⏰ time received)
-   - Added order details: customer name, phone, price, pickup time
-   - Color-coded status indicators
-   - Clearer "Assign to Barista" button with emoji indicator
-   - Added visual feedback on hover (shadow and slide animation)
+2. DAILY ORDER RESET (staff-script.js)
+   - Automatic daily reset at midnight (00:00)
+   - Completed orders marked as "archived"
+   - Fresh order list each new day
+   - Archived orders excluded from daily view but accessible via date picker
+   - Functions: startDailyResetTimer(), archiveCompletedOrders()
 
-3. UPDATED FIREBASE RULES (FIREBASE_RULES.json)
-   - Added proper baristas read/write rules
-   - Ensured both orders and baristas are readable by manager
+3. ORDER TIME WINDOW VALIDATION (menu-script.js)
+   - Orders only accepted 6:00 AM - 11:59 PM
+   - Customer sees error if ordering outside hours
+   - Error message: "We accept orders from 6:00 AM to 12:00 AM (midnight)"
+   - Validation: isOrderingTimeAllowed() checks current hour >= 6
 
-4. ENHANCED ASSIGNMENT MODAL (staff-script.js)
-   - Now displays customer name in order info
-   - Better context for which order is being assigned
+4. DELETE COMPLETED ORDERS (staff-script.js)
+   - Red 🗑️ delete button on completed (green) orders
+   - Confirmation dialog prevents accidents
+   - Only completed orders can be deleted
+   - Functions: deleteCompletedOrder(), deleteOrderFromLocalStorage()
+   - Works with Firebase and localStorage fallback
 
-HOW TO TEST:
-1. Go to menu.html
-2. Place a new order
-3. Login as Manager (credentials in staff-script.js)
-4. You should see all orders immediately on the Manager Dashboard
-5. Click "Assign to Barista" to assign orders to created baristas
-6. The assigned orders will show "✓ Assigned to: [Barista Name]"
+5. ENHANCED MANAGER UI (barista.html)
+   - Date picker input in control bar
+   - "🔄 Today" reset button
+   - Better order display with dates
+   - Styled to match dashboard theme
+   - Mobile-friendly responsive design
 
-ORDERS FLOW:
-Customer → Places Order (menu.html) → Firebase stores order with status: 'active'
-Manager → Views all unassigned orders → Assigns to barista
-Barista → Logs in → Sees only their assigned orders → Marks complete
-Customer → Receives notification when order is ready
+PREVIOUS FIXES (Still in place):
+- Enhanced manager data loading with Firebase real-time updates
+- Improved order card rendering with full details
+- Firebase rules with barista read/write support
+- Assignment modal with customer context
+
+HOW TO USE THE NEW FEATURES:
+1. Manager logs in to barista.html
+2. Date picker shows today's date by default
+3. All today's orders display
+4. Manager can click date picker to select different dates
+5. Click "🔄 Today" to return to current day
+6. Click red 🗑️ delete button on completed orders to remove them
+7. Orders marked completed at midnight are archived automatically
+8. Customers can't place orders before 6 AM or after midnight
+
+ORDERS FLOW (UPDATED):
+Customer → Places Order (6 AM-Midnight) → Firebase stores order
+Manager → Views today's orders → Assigns to barista → Deletes when complete
+Barista → Logs in → Sees their assigned orders → Marks complete
+Midnight → Completed orders archived → New day starts fresh
+Manager → Can view archived orders via date picker
 
 All changes maintain fallback to localStorage for offline functionality.

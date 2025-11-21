@@ -24,7 +24,7 @@ function selectRole(role) {
     document.getElementById('roleSelector').style.display = 'none';
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('backRoleBtn').style.display = 'block';
-    
+
     // Change header and show relevant info based on role
     if (role === 'manager') {
         document.querySelector('.login-header h1').textContent = 'Manager Login';
@@ -47,24 +47,24 @@ function backToRoleSelection() {
 // Login Handler
 function handleLogin(event) {
     event.preventDefault();
-    
+
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     const keyword = document.getElementById('keyword').value.trim();
     const errorDiv = document.getElementById('loginError');
-    
+
     errorDiv.textContent = '';
-    
+
     if (!username || !password || !keyword) {
         errorDiv.textContent = '❌ Please fill in all fields.';
         return;
     }
-    
+
     // Manager credentials
     const MANAGER_USERNAME = 'Manager';
     const MANAGER_PASSWORD = 'coffee';
     const MANAGER_KEYWORD = 'SHOP';
-    
+
     if (currentRole === 'manager') {
         if (username === MANAGER_USERNAME && password === MANAGER_PASSWORD && keyword === MANAGER_KEYWORD) {
             currentUser = username;
@@ -78,7 +78,7 @@ function handleLogin(event) {
         // Barista - must use name created by manager, with correct password/keyword
         const BARISTA_PASSWORD = 'barista';
         const BARISTA_KEYWORD = 'koffi';
-        
+
         if (password === BARISTA_PASSWORD && keyword === BARISTA_KEYWORD) {
             // Password and keyword correct, now validate barista name exists
             validateBaristaLogin(username, errorDiv);
@@ -91,11 +91,11 @@ function handleLogin(event) {
 function validateBaristaLogin(baristaName, errorDiv) {
     // Check if barista exists in database
     if (database) {
-        database.ref('baristas').once('value', function(snapshot) {
+        database.ref('baristas').once('value', function (snapshot) {
             const baristas = snapshot.val() || {};
             const baristasList = Object.values(baristas);
             const baristaExists = baristasList.some(b => b.name === baristaName);
-            
+
             if (baristaExists) {
                 // Barista found, login successful
                 currentUser = baristaName;
@@ -123,7 +123,7 @@ function validateBaristaLoginLocalStorage(baristaName, errorDiv) {
         let baristas = localStorage.getItem('coffeeBaristas');
         let baristasList = baristas ? JSON.parse(baristas) : [];
         const baristaExists = baristasList.some(b => b.name === baristaName);
-        
+
         if (baristaExists) {
             // Barista found, login successful
             currentUser = baristaName;
@@ -147,10 +147,22 @@ function showManagerDashboard() {
     document.getElementById('loginModal').style.display = 'none';
     document.getElementById('dashboardContainer').style.display = 'none';
     document.getElementById('managerDashboard').style.display = 'block';
-    
+
     // Load all orders and baristas
     loadManagerData();
-    
+
+    // Set today's date as default in the date filter
+    const today = new Date();
+    const dateStr = today.toISOString().split('T')[0];
+    const dateFilterInput = document.getElementById('managerDateFilter');
+    if (dateFilterInput) {
+        dateFilterInput.value = dateStr;
+        dateFilterInput.addEventListener('change', function (e) {
+            const selectedDate = new Date(e.target.value);
+            setManagerDateFilter(selectedDate);
+        });
+    }
+
     // Event listeners
     document.getElementById('manageBaristaBtn').addEventListener('click', showBaristaManagementModal);
     document.getElementById('refreshManagerBtn').addEventListener('click', loadManagerData);
@@ -160,31 +172,31 @@ function showManagerDashboard() {
     document.getElementById('closeAssignmentModal').addEventListener('click', () => {
         document.getElementById('orderAssignmentModal').style.display = 'none';
     });
-    
+
     console.log('✅ Manager Dashboard Loaded');
 }
 
 // Show Barista Dashboard (for assigned orders)
 function showBaristaDashboard() {
     console.log('🔍 showBaristaDashboard called, currentBarista:', currentBarista);
-    
+
     document.getElementById('loginModal').style.display = 'none';
     document.getElementById('managerDashboard').style.display = 'none';
     document.getElementById('dashboardContainer').style.display = 'block';
-    
+
     const headerH1 = document.querySelector('.dashboard-header h1');
     if (headerH1) {
         headerH1.textContent = `Barista: ${currentBarista}`;
     }
-    
+
     // Load only orders assigned to this barista
     console.log('📋 About to call loadBaristaOrders for:', currentBarista);
     loadBaristaOrders();
-    
+
     // Remove old listeners to avoid duplicates
     const refreshBtn = document.getElementById('refreshBtn');
     const clearBtn = document.getElementById('clearCompletedBtn');
-    
+
     if (refreshBtn) {
         refreshBtn.onclick = null;
         refreshBtn.addEventListener('click', () => {
@@ -192,18 +204,31 @@ function showBaristaDashboard() {
             loadBaristaOrders();
         });
     }
-    
+
     if (clearBtn) {
         clearBtn.onclick = null;
         clearBtn.addEventListener('click', clearCompletedOrders);
     }
-    
+
     console.log('✅ Barista Dashboard Loaded for:', currentBarista);
 }
 
 // MANAGER FUNCTIONS
 let ordersListener = null;
 let baristasListener = null;
+let selectedManagerDate = null; // Track selected date filter
+
+function getStartOfDay(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
+function getEndOfDay(date) {
+    const d = new Date(date);
+    d.setHours(23, 59, 59, 999);
+    return d;
+}
 
 function loadManagerData() {
     // Try Firebase first, fallback to localStorage
@@ -220,37 +245,37 @@ function loadManagerDataFromFirebase() {
         loadManagerDataFromLocalStorage();
         return;
     }
-    
+
     try {
         // Remove old listeners
         if (ordersListener) ordersListener.off();
         if (baristasListener) baristasListener.off();
-        
+
         // Load all orders with real-time updates
-        ordersListener = database.ref('orders').on('value', function(snapshot) {
+        ordersListener = database.ref('orders').on('value', function (snapshot) {
             const orders = snapshot.val() || {};
             const ordersList = Object.values(orders);
-            
+
             console.log('📦 Manager loaded orders:', ordersList.length);
-            
+
             // Update stats
             document.getElementById('totalOrdersManager').textContent = ordersList.length;
             document.getElementById('pendingOrdersManager').textContent = ordersList.filter(o => !o.status || o.status === 'pending' || o.status === 'active').length;
             document.getElementById('completedOrdersManager').textContent = ordersList.filter(o => o.status === 'completed').length;
-            
+
             // Display orders
             renderManagerOrders(ordersList);
-        }, function(error) {
+        }, function (error) {
             console.error('Firebase orders read error:', error);
             loadManagerDataFromLocalStorage();
         });
-        
+
         // Load baristas with real-time updates
-        baristasListener = database.ref('baristas').on('value', function(snapshot) {
+        baristasListener = database.ref('baristas').on('value', function (snapshot) {
             const baristas = snapshot.val() || {};
             const baristasList = Object.values(baristas);
             renderBaristasList(baristasList);
-        }, function(error) {
+        }, function (error) {
             console.error('Firebase baristas read error:', error);
         });
     } catch (error) {
@@ -263,17 +288,17 @@ function loadManagerDataFromLocalStorage() {
     try {
         const storedOrders = localStorage.getItem('coffeeOrders');
         const storedBaristas = localStorage.getItem('coffeeBaristas');
-        
+
         const ordersList = storedOrders ? JSON.parse(storedOrders) : [];
         const baristasList = storedBaristas ? JSON.parse(storedBaristas) : [];
-        
+
         console.log('📱 Loaded manager data from localStorage');
-        
+
         // Update stats
         document.getElementById('totalOrdersManager').textContent = ordersList.length;
         document.getElementById('pendingOrdersManager').textContent = ordersList.filter(o => !o.status || o.status === 'pending' || o.status === 'active').length;
         document.getElementById('completedOrdersManager').textContent = ordersList.filter(o => o.status === 'completed').length;
-        
+
         // Display orders and baristas
         renderManagerOrders(ordersList);
         renderBaristasList(baristasList);
@@ -284,21 +309,41 @@ function loadManagerDataFromLocalStorage() {
 
 function renderManagerOrders(orders) {
     const container = document.getElementById('managerOrdersContainer');
-    
+
     if (orders.length === 0) {
         container.innerHTML = '<div style="text-align: center; padding: 30px; color: #999;">No orders yet</div>';
         return;
     }
-    
+
     container.innerHTML = '';
-    
+
+    // Filter orders by selected date (if any) and exclude archived orders
+    let filteredOrders = [...orders].filter(order => !order.archived);
+    if (selectedManagerDate) {
+        const startOfDay = getStartOfDay(selectedManagerDate);
+        const endOfDay = getEndOfDay(selectedManagerDate);
+        filteredOrders = filteredOrders.filter(order => {
+            const orderDate = new Date(order.orderTime);
+            return orderDate >= startOfDay && orderDate <= endOfDay;
+        });
+    } else {
+        // Default: show today's orders
+        const today = new Date();
+        const startOfDay = getStartOfDay(today);
+        const endOfDay = getEndOfDay(today);
+        filteredOrders = filteredOrders.filter(order => {
+            const orderDate = new Date(order.orderTime);
+            return orderDate >= startOfDay && orderDate <= endOfDay;
+        });
+    }
+
     // Sort orders by most recent first
-    const sortedOrders = [...orders].reverse();
-    
+    const sortedOrders = filteredOrders.reverse();
+
     sortedOrders.forEach(order => {
         const orderCard = document.createElement('div');
         const statusColor = getStatusColor(order.status);
-        
+
         orderCard.style.cssText = `
             background: #fff;
             border-left: 5px solid ${statusColor};
@@ -308,41 +353,52 @@ function renderManagerOrders(orders) {
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         `;
-        
+
         const orderTime = new Date(order.orderTime);
-        const timeStr = orderTime.toLocaleTimeString('en-US', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+        const timeStr = orderTime.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
         });
-        
-        const assignButton = order.assignedTo 
+        const dateStr = orderTime.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric'
+        });
+
+        const assignButton = order.assignedTo
             ? `<p style="margin: 5px 0; color: #4CAF50; font-weight: bold;">✓ Assigned to: ${order.assignedTo}</p>`
             : `<button onclick="openOrderAssignmentModal('${order.id}', '${order.itemName}', '${order.customerName}')" style="padding: 8px 15px; background: #d4a574; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">👉 Assign to Barista</button>`;
-        
+
+        const deleteButton = order.status === 'completed'
+            ? `<button onclick="deleteCompletedOrder('${order.id}')" style="padding: 8px 15px; background: #ff6b6b; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px;">🗑️ Delete</button>`
+            : '';
+
         orderCard.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: start;">
                 <div style="flex: 1;">
                     <strong style="font-size: 1.1rem; color: #3e2723;">${order.itemName}</strong>
-                    <p style="margin: 8px 0 5px 0; color: #666; font-size: 0.9rem;">⏰ ${timeStr}</p>
+                    <p style="margin: 8px 0 5px 0; color: #666; font-size: 0.9rem;">⏰ ${dateStr} ${timeStr}</p>
                     <p style="margin: 5px 0; color: #666; font-size: 0.9rem;">👤 ${order.customerName}</p>
                     <p style="margin: 5px 0; color: #666; font-size: 0.9rem;">📱 ${order.customerPhone}</p>
                     <p style="margin: 5px 0; color: #666; font-size: 0.9rem;">💰 ${order.itemPrice} | ⏳ ${order.pickupMinutes} min</p>
                     <p style="margin: 8px 0 5px 0; color: ${getStatusColorText(order.status)}; font-weight: bold;">Status: ${order.status.toUpperCase()}</p>
-                    ${assignButton}
+                    <div style="display: flex; align-items: center;">
+                        ${assignButton}
+                        ${deleteButton}
+                    </div>
                 </div>
             </div>
         `;
-        
+
         orderCard.addEventListener('mouseenter', () => {
             orderCard.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
             orderCard.style.transform = 'translateX(5px)';
         });
-        
+
         orderCard.addEventListener('mouseleave', () => {
             orderCard.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
             orderCard.style.transform = 'translateX(0)';
         });
-        
+
         container.appendChild(orderCard);
     });
 }
@@ -360,14 +416,14 @@ function getStatusColorText(status) {
 
 function renderBaristasList(baristas) {
     const container = document.getElementById('baristasListContainer');
-    
+
     if (baristas.length === 0) {
         container.innerHTML = '<p style="color: #999; text-align: center;">No baristas yet. Add one to get started.</p>';
         return;
     }
-    
+
     container.innerHTML = '';
-    
+
     baristas.forEach(barista => {
         const baristaDiv = document.createElement('div');
         baristaDiv.style.cssText = `
@@ -380,7 +436,7 @@ function renderBaristasList(baristas) {
             justify-content: space-between;
             align-items: center;
         `;
-        
+
         baristaDiv.innerHTML = `
             <div>
                 <strong>👨‍💼 ${barista.name}</strong>
@@ -388,7 +444,7 @@ function renderBaristasList(baristas) {
             </div>
             <button onclick="deleteBarista('${barista.id}')" style="padding: 5px 10px; background: #ff6b6b; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">Delete</button>
         `;
-        
+
         container.appendChild(baristaDiv);
     });
 }
@@ -404,10 +460,10 @@ function closeBaristaManagementModal() {
 
 function loadBaristaList() {
     const container = document.getElementById('baristaListInModal');
-    
+
     // Try Firebase first
     if (database) {
-        database.ref('baristas').once('value', function(snapshot) {
+        database.ref('baristas').once('value', function (snapshot) {
             const baristas = snapshot.val() || {};
             const baristasList = Object.values(baristas);
             renderBaristaListUI(baristasList, container);
@@ -434,14 +490,14 @@ function loadBaristaListFromLocalStorage() {
 
 function renderBaristaListUI(baristasList, container) {
     if (!container) return;
-    
+
     if (baristasList.length === 0) {
         container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px; background: #f5f5f5; border-radius: 8px;">No baristas added yet.</div>';
         return;
     }
-    
+
     container.innerHTML = '';
-    
+
     baristasList.forEach((barista, index) => {
         const div = document.createElement('div');
         div.style.cssText = `
@@ -456,7 +512,7 @@ function renderBaristaListUI(baristasList, container) {
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         `;
-        
+
         div.innerHTML = `
             <div style="flex: 1;">
                 <strong style="color: #3e2723; font-size: 1.05rem;">👨‍💼 ${barista.name}</strong>
@@ -464,29 +520,29 @@ function renderBaristaListUI(baristasList, container) {
             </div>
             <button onclick="deleteBarista('${barista.id}')" style="padding: 8px 15px; background: linear-gradient(135deg, #ff6b6b, #ff5252); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Dancing Script', cursive; transition: all 0.3s ease;">Delete</button>
         `;
-        
+
         div.addEventListener('mouseenter', () => {
             div.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
             div.style.transform = 'translateX(5px)';
         });
-        
+
         div.addEventListener('mouseleave', () => {
             div.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
             div.style.transform = 'translateX(0)';
         });
-        
+
         container.appendChild(div);
     });
 }
 
 function addBarista() {
     const name = document.getElementById('baristaNameInput').value.trim();
-    
+
     if (!name) {
         showAddBaristaError('Please enter barista name');
         return;
     }
-    
+
     const baristaId = Date.now().toString();
     const baristaData = {
         id: baristaId,
@@ -494,7 +550,7 @@ function addBarista() {
         createdAt: new Date().toISOString(),
         assignedOrders: 0
     };
-    
+
     // Try Firebase first
     if (database) {
         database.ref('baristas/' + baristaId).set(baristaData).then(() => {
@@ -520,7 +576,7 @@ function addBaristaToLocalStorage(baristaData) {
         let baristasList = baristas ? JSON.parse(baristas) : [];
         baristasList.push(baristaData);
         localStorage.setItem('coffeeBaristas', JSON.stringify(baristasList));
-        
+
         document.getElementById('baristaNameInput').value = '';
         showAddBaristaSuccess('Barista added (offline mode)');
         setTimeout(() => {
@@ -550,7 +606,7 @@ function showAddBaristaError(message) {
         `;
         document.head.appendChild(style);
     }
-    
+
     const errorDiv = document.createElement('div');
     errorDiv.style.cssText = `
         position: fixed;
@@ -568,7 +624,7 @@ function showAddBaristaError(message) {
     `;
     errorDiv.textContent = '❌ ' + message;
     document.body.appendChild(errorDiv);
-    
+
     setTimeout(() => {
         errorDiv.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => errorDiv.remove(), 300);
@@ -592,7 +648,7 @@ function showAddBaristaSuccess(message) {
         `;
         document.head.appendChild(style);
     }
-    
+
     const successDiv = document.createElement('div');
     successDiv.style.cssText = `
         position: fixed;
@@ -610,7 +666,7 @@ function showAddBaristaSuccess(message) {
     `;
     successDiv.textContent = '✅ ' + message;
     document.body.appendChild(successDiv);
-    
+
     setTimeout(() => {
         successDiv.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => successDiv.remove(), 300);
@@ -620,12 +676,12 @@ function showAddBaristaSuccess(message) {
 function deleteBarista(baristaId) {
     if (confirm('Are you sure you want to delete this barista?')) {
         const db = database || window.firebaseDB;
-        
+
         if (!db) {
             showAddBaristaError('Firebase not available');
             return;
         }
-        
+
         db.ref('baristas/' + baristaId).remove().then(() => {
             showAddBaristaSuccess('Barista deleted successfully');
             setTimeout(() => {
@@ -645,31 +701,31 @@ function openOrderAssignmentModal(orderId, itemName, customerName) {
         <small style="color: #666;">Customer: ${customerName || 'N/A'}</small><br>
         <small style="color: #999;">Order ID: ${orderId}</small>
     `;
-    
+
     // Store current order ID for assignment
     window.currentOrderToAssign = orderId;
-    
+
     // Load baristas into select
     loadBaristasForAssignment();
-    
+
     modal.style.display = 'block';
 }
 
 function loadBaristasForAssignment() {
     const select = document.getElementById('baristaAssignmentSelect');
     select.innerHTML = '<option value="">Loading baristas...</option>';
-    
+
     if (database) {
-        database.ref('baristas').once('value', function(snapshot) {
+        database.ref('baristas').once('value', function (snapshot) {
             const baristas = snapshot.val() || {};
             const baristasList = Object.values(baristas);
-            
+
             if (baristasList.length === 0) {
                 // Try localStorage fallback
                 loadBaristasFromLocalStorageForAssignment();
                 return;
             }
-            
+
             select.innerHTML = '<option value="">👨‍💼 Choose a barista...</option>';
             baristasList.forEach(barista => {
                 const option = document.createElement('option');
@@ -688,17 +744,17 @@ function loadBaristasForAssignment() {
 
 function loadBaristasFromLocalStorageForAssignment() {
     const select = document.getElementById('baristaAssignmentSelect');
-    
+
     try {
         let baristas = localStorage.getItem('coffeeBaristas');
         let baristasList = baristas ? JSON.parse(baristas) : [];
-        
+
         if (baristasList.length === 0) {
             select.innerHTML = '<option value="">No baristas available. Please add baristas first.</option>';
             console.warn('No baristas found in localStorage');
             return;
         }
-        
+
         select.innerHTML = '<option value="">👨‍💼 Choose a barista...</option>';
         baristasList.forEach(barista => {
             const option = document.createElement('option');
@@ -717,14 +773,14 @@ function confirmAssignment() {
     const valueParts = select.value.split('|');
     const baristaId = valueParts[0];
     const baristaName = valueParts[1];
-    
+
     if (!baristaName) {
         showAddBaristaError('❌ Please select a barista');
         return;
     }
-    
+
     const orderId = window.currentOrderToAssign;
-    
+
     if (database) {
         // Try Firebase first
         database.ref('orders/' + orderId).update({
@@ -733,14 +789,14 @@ function confirmAssignment() {
             status: 'assigned'
         }).then(() => {
             // Update barista's assigned orders count
-            database.ref('baristas/' + baristaId).once('value', function(snapshot) {
+            database.ref('baristas/' + baristaId).once('value', function (snapshot) {
                 const barista = snapshot.val();
                 const newCount = (barista.assignedOrders || 0) + 1;
                 database.ref('baristas/' + baristaId).update({
                     assignedOrders: newCount
                 });
             });
-            
+
             showAddBaristaSuccess('✅ Order assigned to ' + baristaName);
             document.getElementById('orderAssignmentModal').style.display = 'none';
             loadManagerData();
@@ -765,7 +821,7 @@ function assignOrderToLocalStorage(orderId, baristaId, baristaName) {
             order.status = 'assigned';
             localStorage.setItem('coffeeOrders', JSON.stringify(ordersList));
         }
-        
+
         // Update barista order count
         let baristas = localStorage.getItem('coffeeBaristas');
         let baristasList = baristas ? JSON.parse(baristas) : [];
@@ -774,7 +830,7 @@ function assignOrderToLocalStorage(orderId, baristaId, baristaName) {
             barista.assignedOrders = (barista.assignedOrders || 0) + 1;
             localStorage.setItem('coffeeBaristas', JSON.stringify(baristasList));
         }
-        
+
         showAddBaristaSuccess('✅ Order assigned to ' + baristaName + ' (offline)');
         document.getElementById('orderAssignmentModal').style.display = 'none';
         loadManagerData();
@@ -782,6 +838,47 @@ function assignOrderToLocalStorage(orderId, baristaId, baristaName) {
         showAddBaristaError('❌ Error assigning order: ' + error.message);
         console.error('Error in localStorage assignment:', error);
     }
+}
+
+function deleteCompletedOrder(orderId) {
+    if (confirm('Delete this completed order?')) {
+        if (database) {
+            // Try Firebase first
+            database.ref('orders/' + orderId).remove().then(() => {
+                showAddBaristaSuccess('✅ Order deleted successfully');
+                loadManagerData();
+            }).catch(error => {
+                console.error('Firebase delete error, trying localStorage:', error);
+                deleteOrderFromLocalStorage(orderId);
+            });
+        } else {
+            deleteOrderFromLocalStorage(orderId);
+        }
+    }
+}
+
+function deleteOrderFromLocalStorage(orderId) {
+    try {
+        let orders = localStorage.getItem('coffeeOrders');
+        let ordersList = orders ? JSON.parse(orders) : [];
+        ordersList = ordersList.filter(o => o.id !== orderId);
+        localStorage.setItem('coffeeOrders', JSON.stringify(ordersList));
+        showAddBaristaSuccess('✅ Order deleted successfully');
+        loadManagerData();
+    } catch (error) {
+        showAddBaristaError('❌ Error deleting order: ' + error.message);
+        console.error('Error deleting order:', error);
+    }
+}
+
+function setManagerDateFilter(date) {
+    selectedManagerDate = date;
+    loadManagerData();
+}
+
+function resetManagerDateFilter() {
+    selectedManagerDate = null;
+    loadManagerData();
 }
 
 function getStatusColor(status) {
@@ -803,32 +900,32 @@ function loadBaristaOrders() {
         console.warn('⚠️ Current barista not set');
         return;
     }
-    
+
     console.log('📋 Loading orders for barista:', currentBarista);
-    
+
     if (database) {
         try {
             // Remove old listener
             if (baristaOrdersListener) {
                 baristaOrdersListener.off();
             }
-            
-            baristaOrdersListener = database.ref('orders').on('value', function(snapshot) {
+
+            baristaOrdersListener = database.ref('orders').on('value', function (snapshot) {
                 const allOrders = snapshot.val() || {};
                 const myOrders = Object.keys(allOrders)
                     .filter(key => allOrders[key].assignedTo === currentBarista)
                     .map(key => ({ ...allOrders[key], id: key }));
-                
+
                 console.log('✅ Firebase loaded', myOrders.length, 'orders for', currentBarista);
-                
+
                 // Update stats
                 document.getElementById('totalOrders').textContent = myOrders.length;
                 document.getElementById('activeOrders').textContent = myOrders.filter(o => o.status !== 'completed').length;
                 document.getElementById('completedOrders').textContent = myOrders.filter(o => o.status === 'completed').length;
-                
+
                 // Display orders
                 renderBaristaOrderCards(myOrders);
-            }, function(error) {
+            }, function (error) {
                 console.error('Firebase error:', error);
                 loadBaristaOrdersFromLocalStorage();
             });
@@ -847,14 +944,14 @@ function loadBaristaOrdersFromLocalStorage() {
         const stored = localStorage.getItem('coffeeOrders');
         const allOrders = stored ? JSON.parse(stored) : [];
         const myOrders = allOrders.filter(order => order.assignedTo === currentBarista);
-        
+
         console.log('✅ localStorage loaded', myOrders.length, 'orders for', currentBarista);
-        
+
         // Update stats
         document.getElementById('totalOrders').textContent = myOrders.length;
         document.getElementById('activeOrders').textContent = myOrders.filter(o => o.status !== 'completed').length;
         document.getElementById('completedOrders').textContent = myOrders.filter(o => o.status === 'completed').length;
-        
+
         // Display orders
         renderBaristaOrderCards(myOrders);
     } catch (error) {
@@ -867,16 +964,16 @@ function loadBaristaOrdersFromLocalStorage() {
 
 function renderBaristaOrderCards(orders) {
     const container = document.getElementById('ordersContainer');
-    
+
     if (orders.length === 0) {
         document.getElementById('emptyState').style.display = 'block';
         container.innerHTML = '';
         return;
     }
-    
+
     document.getElementById('emptyState').style.display = 'none';
     container.innerHTML = '';
-    
+
     orders.forEach((order, index) => {
         const card = createBaristaOrderCard(order, index, orders.length);
         container.appendChild(card);
@@ -887,9 +984,9 @@ function createBaristaOrderCard(order, index, total) {
     const card = document.createElement('div');
     card.className = 'order-card';
     card.id = `order-${order.id}`;
-    
+
     const isCompleted = order.status === 'completed';
-    
+
     card.innerHTML = `
         <div class="order-card-header">
             <span class="order-number">Order #${total - index}</span>
@@ -904,7 +1001,7 @@ function createBaristaOrderCard(order, index, total) {
             ${!isCompleted ? `<button onclick="markOrderComplete('${order.id}')" style="width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">✓ Mark Complete</button>` : '<div style="padding: 12px; background: #4CAF50; color: white; text-align: center; border-radius: 8px; font-weight: bold;">✓ Order Completed</div>'}
         </div>
     `;
-    
+
     return card;
 }
 
@@ -950,17 +1047,17 @@ function markOrderCompleteLocal(orderId) {
 function clearCompletedOrders() {
     if (confirm('Delete all your completed orders?')) {
         if (database) {
-            database.ref('orders').once('value', function(snapshot) {
+            database.ref('orders').once('value', function (snapshot) {
                 const allOrders = snapshot.val() || {};
                 // Only delete orders assigned to this barista
-                const completedIds = Object.keys(allOrders).filter(key => 
+                const completedIds = Object.keys(allOrders).filter(key =>
                     allOrders[key].status === 'completed' && allOrders[key].assignedTo === currentBarista
                 );
-                
+
                 completedIds.forEach(id => {
                     database.ref('orders/' + id).remove();
                 });
-                
+
                 alert('✅ Your completed orders cleared');
                 loadBaristaOrders();
             }).catch(error => {
@@ -1006,11 +1103,61 @@ function logoutManager() {
     backToRoleSelection();
 }
 
+// Daily Order Reset - Clear completed orders at midnight
+function startDailyResetTimer() {
+    function scheduleNextReset() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        const timeUntilMidnight = tomorrow.getTime() - now.getTime();
+
+        setTimeout(() => {
+            // At midnight, archive old completed orders
+            archiveCompletedOrders();
+            // Schedule the next reset
+            scheduleNextReset();
+        }, timeUntilMidnight);
+
+        console.log('⏰ Next daily reset scheduled in', Math.round(timeUntilMidnight / 60000), 'minutes');
+    }
+
+    scheduleNextReset();
+}
+
+// Archive completed orders (keep them but mark as archived for a fresh new day)
+function archiveCompletedOrders() {
+    console.log('🗂️ Archiving completed orders from previous day...');
+
+    if (database) {
+        database.ref('orders').once('value', function (snapshot) {
+            const orders = snapshot.val() || {};
+            Object.keys(orders).forEach(key => {
+                const order = orders[key];
+                // Mark completed orders from yesterday as archived (they won't show in today's view)
+                if (order.status === 'completed') {
+                    database.ref('orders/' + key).update({
+                        archived: true,
+                        archivedAt: new Date().toISOString()
+                    });
+                }
+            });
+            console.log('✅ Completed orders archived for new day');
+        }).catch(error => {
+            console.error('Error archiving orders:', error);
+        });
+    }
+}
+
 // Check if user is already logged in
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const savedRole = sessionStorage.getItem('staffRole');
     const savedUser = sessionStorage.getItem('staffUser');
-    
+
+    // Start daily reset timer
+    startDailyResetTimer();
+
     if (savedRole === 'manager' && savedUser) {
         currentUser = savedUser;
         showManagerDashboard();
@@ -1059,16 +1206,16 @@ function loadLatestAnnouncement() {
 function displayAnnouncement(message, timestamp) {
     const notification = document.getElementById('announcementNotification');
     const content = document.getElementById('announcementContent');
-    
+
     content.innerHTML = `<p>${message}</p>`;
     notification.classList.add('show');
     notification.classList.remove('hide');
-    
+
     // Clear existing timeout
     if (announcementTimeoutId) {
         clearTimeout(announcementTimeoutId);
     }
-    
+
     // Auto-hide after 5 seconds
     announcementTimeoutId = setTimeout(() => {
         closeAnnouncement();
@@ -1078,11 +1225,11 @@ function displayAnnouncement(message, timestamp) {
 function closeAnnouncement() {
     const notification = document.getElementById('announcementNotification');
     notification.classList.add('hide');
-    
+
     setTimeout(() => {
         notification.classList.remove('show', 'hide');
     }, 500);
-    
+
     if (announcementTimeoutId) {
         clearTimeout(announcementTimeoutId);
         announcementTimeoutId = null;
@@ -1092,17 +1239,17 @@ function closeAnnouncement() {
 function submitAnnouncement(event) {
     event.preventDefault();
     const text = document.getElementById('announcementText').value.trim();
-    
+
     if (!text) {
         alert('Please enter an announcement message');
         return;
     }
-    
+
     if (text.length > 500) {
         alert('Announcement must be 500 characters or less');
         return;
     }
-    
+
     if (database) {
         database.ref('announcements').push({
             message: text,
@@ -1141,18 +1288,18 @@ function submitAnnouncement(event) {
 // Initialize announcements when page loads
 window.addEventListener('load', () => {
     setTimeout(initializeAnnouncements, 500);
-    
+
     // Setup announcement modal handlers
     const announcementModal = document.getElementById('announcementModal');
     const closeAnnouncementBtn = document.getElementById('closeAnnouncementModal');
     const postAnnouncementBtn = document.getElementById('postAnnouncementBtn');
-    
+
     if (postAnnouncementBtn) {
         postAnnouncementBtn.addEventListener('click', () => {
             announcementModal.style.display = 'block';
         });
     }
-    
+
     if (closeAnnouncementBtn) {
         closeAnnouncementBtn.addEventListener('click', () => {
             announcementModal.style.display = 'none';

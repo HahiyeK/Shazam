@@ -19,6 +19,11 @@
     How long: 5 minutes
     Best for: Understanding the change and getting started
 
+⭐⭐⭐ MANAGER_DASHBOARD_GUIDE.txt (NEW!)
+    What: Complete Manager Dashboard feature guide
+    How long: 10 minutes
+    Best for: Managers learning to use new features
+
 
 📖 SETUP & INSTALLATION
 ═══════════════════════════════════════════════════════════════════════════════
@@ -141,11 +146,17 @@ I WANT TO UNDERSTAND EVERYTHING
 → 2. Read: CHANGES.md (technical)
 → 3. Read: README.md (features)
 
+I'M A MANAGER AND WANT TO USE NEW FEATURES
+→ 1. Read: MANAGER_DASHBOARD_GUIDE.txt
+→ 2. Read: MANAGER_FIX_NOTES.txt
+→ 3. Reference: FEATURE_UPDATES.md
+
 I'M HAVING A PROBLEM
 → 1. Check: Browser console (F12) for errors
 → 2. Read: QUICK_START.txt troubleshooting section
 → 3. Read: INSTALLATION.md troubleshooting section
 → 4. Read: FIREBASE_SETUP.md for database issues
+→ 5. Read: MANAGER_DASHBOARD_GUIDE.txt for manager issues
 
 I NEED THE CODE TO PASTE
 → Open: FIREBASE_RULES.json (easier to copy from)
@@ -242,6 +253,21 @@ SETUP_VISUAL_GUIDE.txt
 ├─ Common issues
 └─ Verification steps
 
+MANAGER_DASHBOARD_GUIDE.txt (NEW!)
+├─ Complete feature overview
+├─ How to use each feature
+├─ Daily workflow example
+├─ Troubleshooting
+├─ Best practices
+└─ Getting help
+
+MANAGER_FIX_NOTES.txt (UPDATED!)
+├─ Previous fixes maintained
+├─ New features added
+├─ How to use new features
+├─ Order flow updated
+└─ Examples included
+
 INSTALLATION.md
 ├─ Complete setup walkthrough
 ├─ What changed explanation
@@ -262,8 +288,9 @@ FIREBASE_SETUP.md
 FIREBASE_RULES.json
 └─ Just the code to copy/paste
 
-SUMMARY.txt
-├─ What was done
+SUMMARY.txt (UPDATED!)
+├─ Firebase integration (Phase 1)
+├─ Manager features (Phase 2)
 ├─ One-time setup required
 ├─ How it works
 ├─ Multi-device support
@@ -284,6 +311,7 @@ README.md
 ├─ Feature list
 ├─ Customer guide
 ├─ Barista guide
+├─ Manager guide
 ├─ Setup instructions
 ├─ Browser requirements
 └─ File structure
