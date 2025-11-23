@@ -1,3 +1,9 @@
+/* Font Face for Quesha */
+@font-face {
+    font-family: 'Quesha';
+    src: url('./quesha-font/Quesha-gndR.ttf') format('truetype');
+}
+
 /* Reset and base styles */
 * {
     margin: 0;
@@ -6,7 +12,7 @@
 }
 
 body {
-    font-family: 'Dancing Script', cursive, serif;
+    font-family: 'Quesha', cursive;
     background: linear-gradient(135deg, #2c1810, #5c3d2e, #8b6f47, #d4a574);
     background-attachment: fixed;
     color: #2c1810;
@@ -58,12 +64,15 @@ body {
 }
 
 .dashboard-header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
     margin-bottom: 5px;
+    font-weight: normal;
 }
 
 .subtitle {
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
     opacity: 0.9;
     font-style: italic;
 }
@@ -87,8 +96,9 @@ body {
 
 .stat-number {
     display: block;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: normal;
     color: #ffd89b;
 }
 
@@ -140,9 +150,9 @@ body {
     border: 2px solid #d4a574;
     border-radius: 8px;
     cursor: pointer;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
@@ -196,6 +206,7 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    color: white;
 }
 
 .order-card-barista:hover {
@@ -243,46 +254,48 @@ body {
 }
 
 .order-number-barista {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #3e2723;
+    font-family: 'Quesha', cursive;
+    font-size: 1.8rem;
+    font-weight: normal;
+    color: #ffffff;
     background: linear-gradient(135deg, #d4a574, #ffd89b);
     display: inline-block;
-    padding: 5px 15px;
+    padding: 8px 18px;
     border-radius: 20px;
 }
 
 .order-time {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 1.1rem;
+    color: white;
     margin-top: 8px;
 }
 
 .order-item-info {
     margin: 15px 0;
     padding: 15px;
-    background: linear-gradient(135deg, #faf8f5, #fff);
+    background: rgba(92, 61, 46, 0.6);
     border-radius: 10px;
-    border-left: 4px solid #8b6f47;
+    border-left: 4px solid #d4a574;
 }
 
 .item-name-barista {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #3e2723;
+    font-family: 'Quesha', cursive;
+    font-size: 1.9rem;
+    font-weight: normal;
+    color: #ffd89b;
     margin-bottom: 8px;
 }
 
 .item-price-barista {
-    font-size: 1.1rem;
-    color: #5c3d2e;
+    font-size: 1.3rem;
+    color: #d4a574;
     font-weight: bold;
 }
 
 .customer-info-section {
     margin: 15px 0;
     padding: 12px;
-    background: #fffaf0;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 8px;
     border-left: 4px solid #d4a574;
 }
@@ -292,32 +305,42 @@ body {
     align-items: center;
     gap: 10px;
     margin: 8px 0;
-    font-size: 1rem;
-    color: #3e2723;
+    font-size: 1.4rem;
+    color: #fff;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-left: 3px solid #d4a574;
 }
 
 .customer-detail strong {
     min-width: 80px;
+    color: #fff;
+    font-weight: normal;
 }
 
 .special-instructions {
     margin: 12px 0;
-    padding: 12px;
-    background: #fff3e0;
+    padding: 14px;
+    background: rgba(92, 61, 46, 0.8);
     border-radius: 8px;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-style: italic;
-    color: #5c3d2e;
+    color: #ffd89b;
+    border-left: 3px solid #d4a574;
 }
 
 .countdown-barista {
     background: linear-gradient(135deg, #5c3d2e, #3e2723);
     color: #ffd89b;
-    padding: 15px;
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
     margin: 15px 0;
     font-weight: bold;
+    font-size: 1.3rem;
 }
 
 .countdown-barista.ready {
@@ -332,13 +355,15 @@ body {
 }
 
 .countdown-time-barista {
-    font-size: 2rem;
+    font-family: 'Quesha', cursive;
+    font-size: 3rem;
     display: block;
     margin: 5px 0;
+    font-weight: normal;
 }
 
 .countdown-label-barista {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     opacity: 0.9;
 }
 
@@ -350,12 +375,12 @@ body {
 
 .action-btn {
     flex: 1;
-    padding: 12px;
+    padding: 15px;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -410,9 +435,9 @@ body {
     color: #ffd89b;
     border: 3px solid #d4a574;
     border-radius: 12px;
-    font-size: 1.1rem;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -430,8 +455,9 @@ body {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
+    font-size: 1.05rem;
     transition: all 0.3s ease;
 }
 
@@ -463,15 +489,19 @@ body {
 }
 
 .empty-state h2 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     margin-bottom: 10px;
     color: #ffd89b;
+    font-weight: normal;
 }
 
 .empty-state p {
     font-size: clamp(1rem, 2vw, 1.2rem);
     opacity: 0.8;
+    color: #fff;
 }
+
 
 /* Modal */
 .modal {
@@ -529,6 +559,7 @@ body {
     #ordersContainer {
         grid-template-columns: 1fr;
         gap: 15px;
+        color: #fff;
     }
 
     .order-actions {
@@ -553,11 +584,12 @@ body {
 }
 
 .signature {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(0.75rem, 2vw, 1.5rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
     color: #ffd89b;
     opacity: 0.95;
     margin: 0;
+    font-weight: normal;
 }
 
 /* Login Modal Styles */
@@ -785,6 +817,16 @@ body {
 /* Modal Body Styling */
 .modal-body {
     padding: 25px;
+    color: #fff;
+}
+.modal-body p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+.orderDetailsBody {
+    max-height: 400px;
+    overflow-y: auto;
+    color: #fff;
 }
 
 /* Add Barista Section */
@@ -881,10 +923,10 @@ body {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
     transition: all 0.3s ease;
 }
 
@@ -937,8 +979,8 @@ body {
     margin-bottom: 20px;
     border: 2px solid #d4a574;
     border-radius: 8px;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.1rem;
     background: white;
     color: #3e2723;
     cursor: pointer;
@@ -962,10 +1004,10 @@ body {
     padding: 14px;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
     transition: all 0.3s ease;
 }
 
@@ -1034,7 +1076,7 @@ body {
 
 .manager-orders-header,
 .manager-baristas-header {
-    color: #3e2723;
+    color: #ffffff;
     margin-bottom: 15px;
 }
 
@@ -1092,8 +1134,8 @@ body {
     margin-bottom: 12px;
     border: 2px solid #d4a574;
     border-radius: 8px;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.1rem;
     box-sizing: border-box;
 }
 
@@ -1104,10 +1146,10 @@ body {
     color: white;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
     transition: all 0.3s ease;
 }
 
@@ -1162,10 +1204,10 @@ body {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
     transition: all 0.3s ease;
 }
 
@@ -1232,10 +1274,10 @@ body {
     padding: 14px;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
     transition: all 0.3s ease;
 }
 
@@ -1363,8 +1405,8 @@ body {
     padding: 12px;
     border: 2px solid #d4a574;
     border-radius: 8px;
-    font-family: 'Dancing Script', cursive, serif;
-    font-size: 16px;
+    font-family: 'Quesha', cursive;
+    font-size: 1.1rem;
     color: #2c1810;
     background: #f5e6d3;
     resize: vertical;
@@ -1375,4 +1417,288 @@ body {
     outline: none;
     border-color: #8b6f47;
     background: #fff;
+}
+
+/* Login Modal Styles */
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.login-container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.login-header h1 {
+    font-family: 'Quesha', cursive;
+    font-size: 2.5rem;
+    color: #3e2723;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.role-selector-title {
+    font-family: 'Quesha', cursive;
+    font-size: 1.3rem;
+    color: #3e2723;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.barista-login-info {
+    background: linear-gradient(135deg, #f5e6d3, #faf8f5);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid #d4a574;
+}
+
+.barista-login-title {
+    font-family: 'Quesha', cursive;
+    font-size: 1.2rem;
+    color: #3e2723;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.barista-login-text {
+    font-family: 'Quesha', cursive;
+    font-size: 1rem;
+    color: #5c3d2e;
+    margin: 5px 0;
+}
+
+.barista-login-text-small {
+    font-family: 'Quesha', cursive;
+    font-size: 0.95rem;
+    color: #8b6f47;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: 'Quesha', cursive;
+    font-size: 1.15rem;
+    color: #3e2723;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    font-family: 'Quesha', cursive;
+    font-size: 1.1rem;
+    background: white;
+    color: #3e2723;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #8b6f47;
+    box-shadow: 0 0 10px rgba(139, 111, 71, 0.2);
+}
+
+.form-small-text {
+    font-family: 'Quesha', cursive;
+    font-size: 0.9rem;
+    color: #999;
+    display: block;
+    margin-top: 5px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    color: #ffd89b;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Quesha', cursive;
+    font-size: 1.25rem;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-btn:hover {
+    background: linear-gradient(135deg, #3e2723, #2c1810);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.login-error {
+    color: #d32f2f;
+    margin-top: 15px;
+    text-align: center;
+    font-family: 'Quesha', cursive;
+    font-size: 1rem;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.home-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: 'Quesha', cursive;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.home-btn:hover {
+    background: linear-gradient(135deg, #1976D2, #0D47A1);
+    transform: translateY(-2px);
+}
+
+.hidden-form {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Contact Link & Modal Styles */
+.contact-link {
+    color: #ffd89b;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px dotted #ffd89b;
+}
+
+.contact-link:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+/* Modal styles */
+.contact-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contact-modal[style*="display: flex"],
+.contact-modal[style*="display:flex"] {
+    display: flex !important;
+}
+
+.contact-content {
+    background: linear-gradient(135deg, #2c1810, #5c3d2e);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid #d4a574;
+    position: relative;
+    color: #fff;
+}
+
+.contact-content h3 {
+    font-family: 'Quesha', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #ffd89b;
+    font-weight: normal;
+}
+
+.contact-content p {
+    font-family: 'Quesha', cursive;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.contact-content strong {
+    color: #d4a574;
+}
+
+.contact-content ul {
+    list-style: none;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-content li {
+    margin-bottom: 8px;
+    font-family: 'Quesha', cursive;
+    font-size: 1rem;
+}
+
+.contact-content a {
+    color: #ffd89b;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-content a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: #ffd89b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #fff;
+    transform: scale(1.2);
 }

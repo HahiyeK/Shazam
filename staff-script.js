@@ -153,12 +153,17 @@ function showManagerDashboard() {
 
     // Set today's date as default in the date filter
     const today = new Date();
-    const dateStr = today.toISOString().split('T')[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
     const dateFilterInput = document.getElementById('managerDateFilter');
     if (dateFilterInput) {
         dateFilterInput.value = dateStr;
         dateFilterInput.addEventListener('change', function (e) {
-            const selectedDate = new Date(e.target.value);
+            // Parse date string in local timezone, not UTC
+            const [year, month, day] = e.target.value.split('-');
+            const selectedDate = new Date(year, month - 1, day);
             setManagerDateFilter(selectedDate);
         });
     }
@@ -214,8 +219,8 @@ function showBaristaDashboard() {
 }
 
 // MANAGER FUNCTIONS
-let ordersListener = null;
-let baristasListener = null;
+let ordersRef = null;
+let baristasRef = null;
 let selectedManagerDate = null; // Track selected date filter
 
 function getStartOfDay(date) {
@@ -248,11 +253,12 @@ function loadManagerDataFromFirebase() {
 
     try {
         // Remove old listeners
-        if (ordersListener) ordersListener.off();
-        if (baristasListener) baristasListener.off();
+        if (ordersRef) ordersRef.off();
+        if (baristasRef) baristasRef.off();
 
         // Load all orders with real-time updates
-        ordersListener = database.ref('orders').on('value', function (snapshot) {
+        ordersRef = database.ref('orders');
+        ordersRef.on('value', function (snapshot) {
             const orders = snapshot.val() || {};
             const ordersList = Object.values(orders);
 
@@ -271,7 +277,8 @@ function loadManagerDataFromFirebase() {
         });
 
         // Load baristas with real-time updates
-        baristasListener = database.ref('baristas').on('value', function (snapshot) {
+        baristasRef = database.ref('baristas');
+        baristasRef.on('value', function (snapshot) {
             const baristas = snapshot.val() || {};
             const baristasList = Object.values(baristas);
             renderBaristasList(baristasList);
@@ -1304,5 +1311,47 @@ window.addEventListener('load', () => {
         closeAnnouncementBtn.addEventListener('click', () => {
             announcementModal.style.display = 'none';
         });
+    }
+});
+
+// Contact info modal toggle for Barista Dashboard
+function toggleContactInfo(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const modal = document.getElementById('contact-modal');
+    if (modal && modal.style.display === 'none') {
+        modal.style.display = 'flex';
+    } else if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Contact info modal toggle for Manager Dashboard
+function toggleContactInfoManager(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const modal = document.getElementById('contact-modal-manager');
+    if (modal && modal.style.display === 'none') {
+        modal.style.display = 'flex';
+    } else if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Close modal when clicking outside of it (Barista)
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('contact-modal');
+    if (modal && event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Close modal when clicking outside of it (Manager)
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('contact-modal-manager');
+    if (modal && event.target === modal) {
+        modal.style.display = 'none';
     }
 });

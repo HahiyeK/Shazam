@@ -7,7 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="menu-style.css">
     <!-- Firebase SDK (Compat Version for backward compatibility) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -57,7 +57,7 @@
             <div class="logo">
                 <div class="coffee-icon">☕</div>
                 <h1>SHAZAM Barista</h1>
-                <p class="tagline">Powered by AJM Digital Solution</p>
+                <p class="tagline">USAFI Coffee Shop</p>
             </div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search menu...">
@@ -75,82 +75,83 @@
                 <button class="filter-btn" data-category="smoothie">Smoothies</button>
                 <button class="filter-btn" data-category="juice">Juices</button>
                 <button class="filter-btn" data-category="specialty">Manual Brewing</button>
+                <button class="filter-btn" data-category="Unique">Unique Coffee</button>
             </div>
 
             <!-- Espresso Based Coffee -->
             <section class="menu-section" data-category="espresso">
                 <h2 class="section-title">☕ Espresso Based Coffee</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Affogato</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">African coffee</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Babyccino</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Caffè Latte</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Caffè au Lait</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Caffè Mocha</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Cappuccino</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Cortado</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Flatwhite</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Piccolo</span>
-                        <span class="item-price">2k</span>
-                    </div>
-                    <div class="menu-item">
-                        <span class="item-name">Espresso Tonic</span>
+                    <div class="menu-item" data-image="affogato.jpeg">
+                         <span class="item-name">Affogato</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Espresso Romano</span>
+                    <div class="menu-item" data-image="african coffee.jpeg">
+                         <span class="item-name">African coffee</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Espresso Macchiato</span>
+                    <div class="menu-item" data-image="babayccino.jpeg">
+                         <span class="item-name">Babyccino</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Spanish Latte</span>
+                    <div class="menu-item" data-image="caffee_latte.jpeg">
+                         <span class="item-name">Caffè Latte</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Caffè_au_Lait.jpeg">
+                         <span class="item-name">Caffè au Lait</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="caffe_mocha.jpeg">
+                         <span class="item-name">Caffè Mocha</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Calumera Latte</span>
+                    <div class="menu-item" data-image="cappuccino.jpeg">
+                         <span class="item-name">Cappuccino</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Cortado.jpeg">
+                         <span class="item-name">Cortado</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Flat_White.jpeg">
+                         <span class="item-name">Flatwhite</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Picollo.jpeg">
+                         <span class="item-name">Piccolo</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Espresso_Tonic.jpeg">
+                         <span class="item-name">Espresso Tonic</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Frappuccino</span>
+                    <div class="menu-item" data-image="espresso_romano.jpeg">
+                         <span class="item-name">Espresso Romano</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Raf Latte</span>
+                    <div class="menu-item" data-image="Espresso_Macchiato.jpeg">
+                         <span class="item-name">Espresso Macchiato</span>
+                        <span class="item-price">2k</span>
+                    </div>
+                    <div class="menu-item" data-image="Spanish_Latte.jpeg">
+                         <span class="item-name">Spanish Latte</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Hot Chocolate</span>
+                    <div class="menu-item" data-image="calumera_latte.jpeg">
+                         <span class="item-name">Calumera Latte</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item" data-image="Frapuccini.jpeg">
+                         <span class="item-name">Frappuccino</span>
+                        <span class="item-price">3k</span>
+                    </div>
+                    <div class="menu-item" data-image="Raf_Latte.jpeg">
+                         <span class="item-name">Raf Latte</span>
+                        <span class="item-price">2.5k</span>
+                    </div>
+                    <div class="menu-item" data-image="Hot_Chocolate.jpeg">
+                         <span class="item-name">Hot Chocolate</span>
                         <span class="item-price">2k</span>
                     </div>
                 </div>
@@ -160,20 +161,20 @@
             <section class="menu-section" data-category="black">
                 <h2 class="section-title">☕ Black Coffee</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Americano</span>
+                    <div class="menu-item" data-image="Americano.jpeg">
+                         <span class="item-name">Americano</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Long Black</span>
+                    <div class="menu-item" data-image="Long_Black.jpeg">
+                         <span class="item-name">Long Black</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Red Eye</span>
+                    <div class="menu-item" data-image="Red_Eye.jpeg">
+                         <span class="item-name">Red Eye</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Black Eye</span>
+                    <div class="menu-item" data-image="Black_Eye.jpeg">
+                         <span class="item-name">Black Eye</span>
                         <span class="item-price">2k</span>
                     </div>
                 </div>
@@ -183,20 +184,20 @@
             <section class="menu-section" data-category="iced">
                 <h2 class="section-title">🧊 Iced Coffee</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Iced Black Eye</span>
+                    <div class="menu-item" data-image="Iced_Black_Eye.jpeg">
+                         <span class="item-name">Iced Black Eye</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Iced Red Eye</span>
+                    <div class="menu-item" data-image="Iced_Red_Eye.jpeg">
+                         <span class="item-name">Iced Red Eye</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Iced Long Black</span>
+                    <div class="menu-item" data-image="Iced_Long_Black.jpeg">
+                         <span class="item-name">Iced Long Black</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Iced Americano</span>
+                    <div class="menu-item" data-image="Iced_Americano.jpeg">
+                         <span class="item-name">Iced Americano</span>
                         <span class="item-price">2.5k</span>
                     </div>
                 </div>
@@ -206,20 +207,20 @@
             <section class="menu-section" data-category="tea">
                 <h2 class="section-title">🍵 Tea</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Black tea</span>
+                    <div class="menu-item" data-image="Black_Tea.jpeg">
+                         <span class="item-name">Black tea</span>
                         <span class="item-price">1.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Green tea</span>
+                    <div class="menu-item" data-image="Green_Tea.jpeg">
+                         <span class="item-name">Green tea</span>
                         <span class="item-price">1.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">African tea</span>
+                    <div class="menu-item" data-image="African_Tea.jpeg">
+                         <span class="item-name">African tea</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Spiced tea</span>
+                    <div class="menu-item" data-image="Spiced_Tea.jpeg">
+                         <span class="item-name">Spiced tea</span>
                         <span class="item-price">4k</span>
                     </div>
                 </div>
@@ -229,20 +230,20 @@
             <section class="menu-section" data-category="milkshake">
                 <h2 class="section-title">🥤 Milkshake</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Chocolate milkshake</span>
+                    <div class="menu-item" data-image="Chocolate_Milkshake.jpeg">
+                         <span class="item-name">Chocolate milkshake</span>
                         <span class="item-price">3.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Vanilla milkshake</span>
+                    <div class="menu-item" data-image="Vanilla_Milkshake.jpeg">
+                         <span class="item-name">Vanilla milkshake</span>
                         <span class="item-price">3.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Strawberry milkshake</span>
+                    <div class="menu-item" data-image="Strawberry_Milkshake.jpeg">
+                         <span class="item-name">Strawberry milkshake</span>
                         <span class="item-price">3.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Fruit milkshake</span>
+                    <div class="menu-item" data-image="Fruit_Milkshake.jpeg">
+                         <span class="item-name">Fruit milkshake</span>
                         <span class="item-price">3.5k</span>
                     </div>
                 </div>
@@ -252,16 +253,16 @@
             <section class="menu-section" data-category="juice">
                 <h2 class="section-title">🍹 Fruit Juice</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Mix juice</span>
+                    <div class="menu-item" data-image="Mix_Juice.jpeg">
+                         <span class="item-name">Mix juice</span>
                         <span class="item-price">3k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Tropical juice</span>
+                    <div class="menu-item" data-image="Tropical_Juice.jpeg">
+                         <span class="item-name">Tropical juice</span>
                         <span class="item-price">3k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Exotic juice</span>
+                    <div class="menu-item" data-image="Exotic_Juice.jpeg">
+                         <span class="item-name">Exotic juice</span>
                         <span class="item-price">3k</span>
                     </div>
                 </div>
@@ -271,70 +272,78 @@
             <section class="menu-section" data-category="smoothie">
                 <h2 class="section-title">🥤 Smoothie</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Banana mango smoothie</span>
+                    <div class="menu-item" data-image="Banana_Mango_Smoothie.jpeg">
+                         <span class="item-name">Banana mango smoothie</span>
                         <span class="item-price">4k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Avocado berry smoothie</span>
+                    <div class="menu-item" data-image="Avocado_Berry_Smoothie.jpeg">
+                         <span class="item-name">Avocado Mango smoothie</span>
                         <span class="item-price">4k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Banana mango yoghurt smoothie</span>
+                    <div class="menu-item" data-image="Banana_Yogurt_Smoothie.jpeg">
+                         <span class="item-name">Banana yoghurt smoothie</span>
+                        <span class="item-price">4k</span>
+                    </div> 
+                    <div class="menu-item" data-image="Choco_Peanut_Smoothie.jpeg">
+                         <span class="item-name">Choco Peanut Smoothie</span>
                         <span class="item-price">4k</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Speciality -->
+            <!-- Manual Brewing -->
             <section class="menu-section" data-category="specialty">
                 <h2 class="section-title">☕ Manual Brewing</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">French press</span>
+                    <div class="menu-item" data-image="french_press.jpeg">
+                         <span class="item-name">French press</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Aero-press</span>
+                    <div class="menu-item" data-image="aero_press.jpeg">
+                         <span class="item-name">Aero-press</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Moka pot</span>
+                    <div class="menu-item" data-image="moka_pot.jpeg">
+                         <span class="item-name">Moka pot</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Cold brew</span>
+                    <div class="menu-item" data-image="cold_brew.jpeg">
+                         <span class="item-name">Cold brew</span>
+                        <span class="item-price">2k</span>
+                    </div> 
+                    <div class="menu-item" data-image="v60.jpeg">
+                         <span class="item-name">V60</span>
                         <span class="item-price">2k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">V60</span>
+                    <div class="menu-item" data-image="chemex.jpeg">
+                         <span class="item-name">Chemex</span>
                         <span class="item-price">2k</span>
                     </div>
                 </div>
             </section>
 
             <!-- Unique Coffee -->
-            <section class="menu-section" data-category="espresso">
+            <section class="menu-section" data-category="Unique">
                 <h2 class="section-title">☕ Unique Coffee</h2>
                 <div class="menu-grid">
-                    <div class="menu-item">
-                        <span class="item-name">Egg coffee</span>
+                    <div class="menu-item" data-image="egg_coffee.jpeg">
+                         <span class="item-name">Egg coffee</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Mango coffee</span>
+                    <div class="menu-item" data-image="mango_coffee.jpeg">
+                         <span class="item-name">Mango coffee</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Avocado coffee</span>
+                    <div class="menu-item" data-image="avocado_coffee.jpeg">
+                         <span class="item-name">Avocado coffee</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Babana coffee</span>
+                    <div class="menu-item" data-image="banana_coffee.jpeg">
+                         <span class="item-name">Babana coffee</span>
                         <span class="item-price">2.5k</span>
                     </div>
-                    <div class="menu-item">
-                        <span class="item-name">Frappe</span>
+                    <div class="menu-item" data-image="frappe.jpeg">
+                         <span class="item-name">Frappe</span>
                         <span class="item-price">2.5k</span>
                     </div>
                 </div>
@@ -344,7 +353,26 @@
         <footer class="menu-footer">
             <p class="contact">📞 +250 784 039 011</p>
             <p class="powered">Powered by USAFI COFFEE Shop</p>
-            <p class="signature">Made by AJM digital solution</p>
+            <p class="signature">
+                <a href="#" class="contact-link" onclick="toggleContactInfo(event)">Made by AJM digital solution</a>
+            </p>
+            <div id="contact-modal" class="contact-modal">
+                <div class="contact-content">
+                    <span class="close" onclick="toggleContactInfo()">&times;</span>
+                    <h3>AJM Digital Solution</h3>
+                    <p><strong>Location:</strong> Kigali, Rwanda</p>
+                    <p><strong>Phone Numbers:</strong></p>
+                    <ul>
+                        <li><a href="tel:+250783309973">+250783309973</a></li>
+                        <li><a href="tel:+250784039011">+250784039011</a></li>
+                    </ul>
+                    <p><strong>Email:</strong></p>
+                    <ul>
+                        <li><a href="mailto:ashimirwejoseph@gmail.com">ashimirwejoseph@gmail.com</a></li>
+                        <li><a href="mailto:niyonizeyezamshaban@gmail.com">niyonizeyezamshaban@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="barista-link-container">
                 <a href="barista.html" class="barista-link">
                     🔐 Barista Dashboard
@@ -388,8 +416,13 @@
             </div>
             <div class="modal-body">
                 <div class="selected-item-display">
-                    <h3 id="selectedItemName"></h3>
-                    <p class="selected-price" id="selectedItemPrice"></p>
+                    <div class="item-info">
+                        <h3 id="selectedItemName"></h3>
+                        <p class="selected-price" id="selectedItemPrice"></p>
+                    </div>
+                    <div class="item-image-container">
+                        <img id="selectedItemImage" src="" alt="Product Image" class="selected-item-image">
+                    </div>
                 </div>
                 <form id="orderForm">
                     <div class="form-group">

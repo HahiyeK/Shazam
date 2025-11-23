@@ -7,7 +7,13 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Quesha';
+            src: url('./quesha-font/Quesha-gndR.ttf') format('truetype');
+        }
+    </style>
     <link rel="stylesheet" href="barista-style.css">
     <!-- Firebase SDK (Compat Version for backward compatibility) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -133,9 +139,9 @@
                 <button class="control-btn" id="refreshBtn">
                     🔄 Refresh
                 </button>
-                <button class="control-btn" id="clearCompletedBtn">
+                <!--<button class="control-btn" id="clearCompletedBtn">
                     🗑️ Clear Completed
-                </button>
+                </button> -->
             </div>
             <div class="controls-right">
                 <button class="control-btn logout-btn" onclick="logoutBarista()">
@@ -161,7 +167,26 @@
 
         <!-- Footer -->
         <footer class="dashboard-footer">
-            <p class="signature">Made by AJM digital solution</p>
+            <p class="signature">
+                <a href="#" class="contact-link" onclick="toggleContactInfo(event)">Made by AJM digital solution</a>
+            </p>
+            <div id="contact-modal" class="contact-modal">
+                <div class="contact-content">
+                    <span class="close" onclick="toggleContactInfo()">&times;</span>
+                    <h3>AJM Digital Solution</h3>
+                    <p><strong>Location:</strong> Kigali, Rwanda</p>
+                    <p><strong>Phone Numbers:</strong></p>
+                    <ul>
+                        <li><a href="tel:+250783309973">+250783309973</a></li>
+                        <li><a href="tel:+250784039011">+250784039011</a></li>
+                    </ul>
+                    <p><strong>Email:</strong></p>
+                    <ul>
+                        <li><a href="mailto:ashimirwejoseph@gmail.com">ashimirwejoseph@gmail.com</a></li>
+                        <li><a href="mailto:niyonizeyezamshaban@gmail.com">niyonizeyezamshaban@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -231,7 +256,26 @@
 
         <!-- Footer -->
         <footer class="dashboard-footer">
-            <p class="signature">Made by AJM digital solution</p>
+            <p class="signature">
+                <a href="#" class="contact-link" onclick="toggleContactInfoManager(event)">Made by AJM digital solution</a>
+            </p>
+            <div id="contact-modal-manager" class="contact-modal">
+                <div class="contact-content">
+                    <span class="close" onclick="toggleContactInfoManager()">&times;</span>
+                    <h3>AJM Digital Solution</h3>
+                    <p><strong>Location:</strong> Kigali, Rwanda</p>
+                    <p><strong>Phone Numbers:</strong></p>
+                    <ul>
+                        <li><a href="tel:+250783309973">+250783309973</a></li>
+                        <li><a href="tel:+250784039011">+250784039011</a></li>
+                    </ul>
+                    <p><strong>Email:</strong></p>
+                    <ul>
+                        <li><a href="mailto:ashimirwejoseph@gmail.com">ashimirwejoseph@gmail.com</a></li>
+                        <li><a href="mailto:niyonizeyezamshaban@gmail.com">niyonizeyezamshaban@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
         </footer>
     </div>
 

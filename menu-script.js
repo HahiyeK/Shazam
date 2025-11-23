@@ -272,14 +272,22 @@ function initializeMenu() {
         item.addEventListener('click', function () {
             const itemName = this.querySelector('.item-name').textContent;
             const itemPrice = this.querySelector('.item-price').textContent;
+            const itemImage = this.getAttribute('data-image');
 
             selectedItem = {
                 name: itemName,
-                price: itemPrice
+                price: itemPrice,
+                image: itemImage
             };
 
             selectedItemName.textContent = itemName;
             selectedItemPrice.textContent = itemPrice;
+            
+            // Set the image if available
+            const itemImageElement = document.getElementById('selectedItemImage');
+            if (itemImageElement && itemImage) {
+                itemImageElement.src = 'images/' + itemImage;
+            }
 
             openModal();
         });
@@ -665,6 +673,27 @@ function initializeMenu() {
     console.log('🎉 SHAZAM Coffee Shop App with Firebase Loaded!');
     console.log('📱 Mobile responsive | 🔍 Search & filter | 🛒 Order system active | 🌐 Cloud synced');
 }
+
+// Contact info modal toggle
+function toggleContactInfo(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const modal = document.getElementById('contact-modal');
+    if (modal.style.display === 'none') {
+        modal.style.display = 'flex';
+    } else {
+        modal.style.display = 'none';
+    }
+}
+
+// Close modal when clicking outside of it
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('contact-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
 
 // Initialize menu when script loads (handles both DOMContentLoaded and dynamic loading)
 if (document.readyState === 'loading') {

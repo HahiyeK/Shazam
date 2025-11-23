@@ -1,3 +1,9 @@
+/* Font Face for Quesha */
+@font-face {
+    font-family: 'Quesha';
+    src: url('./quesha-font/Quesha-gndR.ttf') format('truetype');
+}
+
 /* Reset and base styles */
 * {
     margin: 0;
@@ -6,7 +12,7 @@
 }
 
 body {
-    font-family: 'Dancing Script', cursive, serif;
+    font-family: 'Quesha', cursive;
     background: linear-gradient(135deg, #2c1810, #5c3d2e, #8b6f47, #d4a574);
     background-attachment: fixed;
     color: #2c1810;
@@ -49,16 +55,18 @@ body {
 }
 
 .logo h1 {
-    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-size: clamp(2.2rem, 6vw, 4rem);
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: normal;
     color: #ffd89b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     letter-spacing: 2px;
+    font-family: 'Quesha', cursive;
 }
 
 .tagline {
-    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     font-style: italic;
     opacity: 0.9;
     color: #d4a574;
@@ -74,9 +82,9 @@ body {
     padding: 12px 20px;
     border: 2px solid #d4a574;
     border-radius: 25px;
-    font-size: 1rem;
-    font-family: 'Helvetica', cursive, serif;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     outline: none;
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.9);
@@ -104,12 +112,12 @@ body {
     padding: 10px 20px;
     border: 2px solid #8b6f47;
     background: white;
-    color: #5c3d2e;
+    color: #000000;
     border-radius: 20px;
     cursor: pointer;
-    font-size: clamp(1rem, 1.5vw, 1rem);
-    font-family: 'Helvetica', cursive, serif;
-    font-weight: bold;
+    font-size: clamp(1.5rem, 1.5vw, 1.2rem);
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     transition: all 0.3s ease;
     text-transform: capitalize;
 }
@@ -150,14 +158,14 @@ body {
 }
 
 .section-title {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-family: 'Helvetica', cursive, serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-family: 'Quesha', cursive;
     color: #ffffff;
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 3px solid #d4a574;
     display: inline-block;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .menu-grid {
@@ -203,21 +211,22 @@ body {
 }
 
 .item-name {
-    font-size: clamp(1.5rem, 2.5vw, 1.1rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     color: #ffffff;
-    font-weight: bold;
+    font-weight: normal;
     flex: 1;
     background-color: #5c3d2e;
     padding: 8px 12px;
     border-radius: 8px;
     display: inline-block;
+    font-family: 'Quesha', cursive;
 }
 
 .item-price {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    font-family: 'Helvetica', cursive, serif;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    font-family: 'Quesha', cursive;
     color: #5c3d2e;
-    font-weight: bold;
+    font-weight: normal;
     background: linear-gradient(135deg, #d4a574, #ffd89b);
     padding: 5px 15px;
     border-radius: 20px;
@@ -234,8 +243,9 @@ body {
 }
 
 .contact {
-    font-size: clamp(1rem, 3vw, 1.3rem);
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    font-weight: normal;
     margin-bottom: 10px;
     color: #ffd89b;
 }
@@ -247,11 +257,12 @@ body {
 }
 
 .signature {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(0.75rem, 2vw, 1.5rem);
+    font-family: 'Quesha', cursive;
+    font-size: clamp(1.1rem, 2vw, 1.7rem);
     margin-top: 15px;
     color: #ffd89b;
     opacity: 0.95;
+    font-weight: normal;
 }
 
 /* No Results Message */
@@ -381,7 +392,9 @@ body {
 
 .modal-header h2 {
     margin: 0;
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
 }
 
 .close-modal {
@@ -406,25 +419,54 @@ body {
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 25px;
-    text-align: center;
     border: 2px solid #d4a574;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.item-info {
+    flex: 1;
+    text-align: left;
 }
 
 .selected-item-display h3 {
     color: #3e2723;
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
     margin-bottom: 10px;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
 }
 
 .selected-price {
-    font-size: clamp(1.3rem, 3vw, 1.8rem);
-    font-family: 'Helvetica', cursive, serif;
-    font-weight: bold;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     color: #5c3d2e;
     background: linear-gradient(135deg, #d4a574, #ffd89b);
     display: inline-block;
     padding: 8px 20px;
     border-radius: 25px;
+}
+
+.item-image-container {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e0d0b8;
+    overflow: hidden;
+}
+
+.selected-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .form-group {
@@ -435,10 +477,9 @@ body {
     display: block;
     margin-bottom: 8px;
     color: #3e2723;
-    font-weight: 600;
-    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-    font-family: 'Helvetica', cursive, serif;
-    
+    font-weight: normal;
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-family: 'Quesha', cursive;
 }
 
 .form-group input,
@@ -448,8 +489,8 @@ body {
     padding: 12px 15px;
     border: 2px solid #e0d0b8;
     border-radius: 10px;
-    font-size: 1rem;
-    font-family: 'Helvetica', cursive, serif;
+    font-size: 1.1rem;
+    font-family: 'Quesha', cursive;
     transition: all 0.3s ease;
     background: white;
 }
@@ -487,13 +528,13 @@ body {
     color: #ffd89b;
     border: none;
     border-radius: 12px;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .submit-order-btn:hover {
@@ -572,7 +613,9 @@ body {
 
 .active-orders-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
 }
 
 .close-orders-btn {
@@ -580,8 +623,8 @@ body {
     border: none;
     color: #ffd89b;
     font-size: 1.5rem;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
@@ -626,10 +669,11 @@ body {
 }
 
 .order-item-name {
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: normal;
     color: #3e2723;
     margin: 8px 0;
+    font-family: 'Quesha', cursive;
 }
 
 .order-price {
@@ -685,8 +729,9 @@ body {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
+    font-size: 1.05rem;
     transition: all 0.3s ease;
 }
 
@@ -737,6 +782,18 @@ body {
 
     .selected-item-display {
         padding: 15px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item-info {
+        text-align: center;
+        width: 100%;
+    }
+
+    .item-image-container {
+        width: 120px;
+        height: 120px;
     }
 
     .form-group input,
@@ -744,6 +801,107 @@ body {
     .form-group textarea {
         padding: 10px 12px;
     }
+}
+
+/* Contact Link & Modal Styles */
+.contact-link {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px dotted #3e2723;
+}
+
+.contact-link:hover {
+    opacity: 0.7;
+    transform: scale(1.05);
+}
+
+/* Modal styles */
+.contact-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contact-modal[style*="display: flex"],
+.contact-modal[style*="display:flex"] {
+    display: flex !important;
+}
+
+.contact-content {
+    background: linear-gradient(135deg, #5c3d2e, #3e2723);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid #d4a574;
+    position: relative;
+    color: #fff;
+}
+
+.contact-content h3 {
+    font-family: 'Quesha', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #ffd89b;
+    font-weight: normal;
+}
+
+.contact-content p {
+    font-family: 'Quesha', cursive;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.contact-content strong {
+    color: #d4a574;
+}
+
+.contact-content ul {
+    list-style: none;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-content li {
+    margin-bottom: 8px;
+    font-family: 'Quesha', cursive;
+    font-size: 1rem;
+}
+
+.contact-content a {
+    color: #ffd89b;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-content a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: #ffd89b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #fff;
+    transform: scale(1.2);
 }
 
 /* Barista Link Container */
@@ -759,8 +917,9 @@ body {
     color: #3e2723;
     text-decoration: none;
     border-radius: 25px;
-    font-weight: bold;
-    font-size: 1rem;
+    font-weight: normal;
+    font-size: 1.2rem;
+    font-family: 'Quesha', cursive;
     transition: all 0.3s ease;
     border: 2px solid #ffd89b;
 }
@@ -799,8 +958,9 @@ body {
 
 .notifications-header h3 {
     margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.4rem;
+    font-weight: normal;
+    font-family: 'Quesha', cursive;
 }
 
 .notifications-close-btn {
@@ -808,8 +968,8 @@ body {
     border: none;
     color: #ffd89b;
     font-size: 1.5rem;
-    font-family: 'Dancing Script', cursive, serif;
-    font-weight: bold;
+    font-family: 'Quesha', cursive;
+    font-weight: normal;
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;

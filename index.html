@@ -25,13 +25,32 @@
             <div class="qr-container">
                 <h2>Scan QR Code to Access Menu</h2>
                 <div id="qrcode">
-                    <img src="QRCode.png" alt="QR Code to access menu" style="max-width: 300px; width: 100%; height: auto;">
+                    <img src="QRCode.png" alt="QR Code to access menu" class="qr-image">
                 </div>
             </div>
         </main>
         <footer>
             <p>&copy; 2025 Coffee Shop. All rights reserved.</p>
-            <p class="signature">Made by AJM digital solution</p>
+            <p class="signature">
+                <a href="#" class="contact-link" onclick="toggleContactInfo(event)">Made by AJM digital solution</a>
+            </p>
+            <div id="contact-modal" class="contact-modal">
+                <div class="contact-content">
+                    <span class="close" onclick="toggleContactInfo()">&times;</span>
+                    <h3>AJM Digital Solution</h3>
+                    <p><strong>Location:</strong> Kigali, Rwanda</p>
+                    <p><strong>Phone Numbers:</strong></p>
+                    <ul>
+                        <li><a href="tel:+250783309973">+250783309973</a></li>
+                        <li><a href="tel:+250784039011">+250784039011</a></li>
+                    </ul>
+                    <p><strong>Email:</strong></p>
+                    <ul>
+                        <li><a href="mailto:ashimirwejoseph@gmail.com">ashimirwejoseph@gmail.com</a></li>
+                        <li><a href="mailto:niyonizeyezamshaban@gmail.com">niyonizeyezamshaban@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
         </footer>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
