@@ -160,7 +160,12 @@ function showManagerDashboard() {
     const dateFilterInput = document.getElementById('managerDateFilter');
     if (dateFilterInput) {
         dateFilterInput.value = dateStr;
-        dateFilterInput.addEventListener('change', function (e) {
+        // Remove old listener if it exists
+        const newDateFilterInput = dateFilterInput.cloneNode(true);
+        dateFilterInput.parentNode.replaceChild(newDateFilterInput, dateFilterInput);
+        
+        // Add fresh listener
+        document.getElementById('managerDateFilter').addEventListener('change', function (e) {
             // Parse date string in local timezone, not UTC
             const [year, month, day] = e.target.value.split('-');
             const selectedDate = new Date(year, month - 1, day);
@@ -168,9 +173,19 @@ function showManagerDashboard() {
         });
     }
 
-    // Event listeners
-    document.getElementById('manageBaristaBtn').addEventListener('click', showBaristaManagementModal);
-    document.getElementById('refreshManagerBtn').addEventListener('click', loadManagerData);
+    // Event listeners - remove old and add fresh
+    const manageBaristaBtn = document.getElementById('manageBaristaBtn');
+    const refreshManagerBtn = document.getElementById('refreshManagerBtn');
+    
+    if (manageBaristaBtn) {
+        manageBaristaBtn.onclick = null;
+        manageBaristaBtn.addEventListener('click', showBaristaManagementModal);
+    }
+    
+    if (refreshManagerBtn) {
+        refreshManagerBtn.onclick = null;
+        refreshManagerBtn.addEventListener('click', loadManagerData);
+    }
     document.getElementById('closeBaristaModal').addEventListener('click', () => {
         document.getElementById('baristaManagementModal').style.display = 'none';
     });
@@ -885,6 +900,18 @@ function setManagerDateFilter(date) {
 
 function resetManagerDateFilter() {
     selectedManagerDate = null;
+    
+    // Update the date input to today's date
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    const dateFilterInput = document.getElementById('managerDateFilter');
+    if (dateFilterInput) {
+        dateFilterInput.value = dateStr;
+    }
+    
     loadManagerData();
 }
 
